@@ -1,5 +1,3 @@
-# ZRCMS
-
 # Frontend Dependencies
 | Package             | Version  |
 |---------------------|----------|
