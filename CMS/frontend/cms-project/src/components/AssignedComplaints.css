@@ -1,0 +1,130 @@
+.AssignedComplaints-layout {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    top:0;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.AssignedComplaints-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 32px 7vw 0 7vw;
+    background: transparent;
+}
+.tag{
+    font-weight: 600;
+    color: #1a237e;
+}
+
+.AssignedComplaints-layout:first-child{
+    position: absolute;
+    top: 0;
+    left:0;
+}
+.AssignedComplaints-content {
+    flex: 1;
+    padding: 48px 4vw 32px 4vw;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background: transparent;
+    min-width: 0;
+}
+
+.AssignedComplaints-dashboard-bg {
+  /* background: #f7f9fc; */
+  min-height: 100vh;
+  /* padding: 24px 0; */
+}
+
+.AssignedComplaints-header {
+  padding: 0 32px 16px 32px;
+}
+
+.AssignedComplaints-gradient-text {
+  background: linear-gradient(90deg, #250ed2 0%, #071151 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.AssignedComplaints-table-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    /* margin: 0 32px; */
+    min-width: 70vw;
+    padding: 24px;
+}
+
+.AssignedComplaints-table-responsive {
+  overflow-x: auto;
+}
+
+.AssignedComplaints-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.AssignedComplaints-table th,
+.AssignedComplaints-table td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.AssignedComplaints-table th {
+  background: #f2f6fa;
+  font-weight: 700;
+  font-size: 1rem;
+  border-bottom: 2px solid #e3e8ee;
+}
+
+.AssignedComplaints-table td {
+  background: #fff;
+  font-size: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.AssignedComplaints-table a {
+  cursor: pointer;
+  color: #0033ff;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.AssignedComplaints-no-data {
+  text-align: center;
+  color: #888;
+  padding: 32px 0;
+  font-size: 1.1rem;
+}
+
+.AssignedComplaints-table-footer {
+  color: #444;
+  font-size: 0.95rem;
+  margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+  .AssignedComplaints-table-card {
+    margin: 0 8px;
+    padding: 12px;
+  }
+  .AssignedComplaints-header {
+    padding: 0 8px 12px 8px;
+  }
+  .AssignedComplaints-gradient-text {
+    font-size: 1.3rem;
+  }
+  .AssignedComplaints-table th,
+  .AssignedComplaints-table td {
+    padding: 8px 6px;
+    font-size: 0.95rem;
+  }
+}

@@ -1,0 +1,392 @@
+/* === Base Layout === */
+.dashboard-layout {
+    display: flex;
+    /* flex-direction: column; */
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    /* left: 5vw; */
+}
+
+/* === Content Area === */
+.dashboard-content {
+    flex: 1;
+    padding: 48px 4vw 32px;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    overflow: hidden;
+}
+
+/* === Hero Section === */
+.dashboard-hero {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.dashboard-hero h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 12px;
+    margin-bottom: 0;
+    z-index: 1;
+    flex-wrap: wrap;
+}
+
+.dashboard-gradient-text {
+    background: linear-gradient(90deg, #250ed2 0%, #071151 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dashboard-emoji {
+    font-size: 2.2rem;
+    margin-left: 2px;
+    animation: dashboard-emoji-pop 1.2s infinite alternate;
+}
+
+@keyframes dashboard-emoji-pop {
+    0% {
+        transform: scale(1) rotate(-8deg);
+    }
+
+    100% {
+        transform: scale(1.18) rotate(8deg);
+    }
+}
+
+.dashboard-breadcrumb {
+    color: #7b6fd6;
+    font-size: 1.08rem;
+    font-weight: 500;
+    margin-top: 2px;
+    margin-bottom: 0;
+    letter-spacing: 0.5px;
+    z-index: 1;
+}
+
+/* === Card Layout === */
+.dashboard-cards-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vw;
+    margin-bottom: 4vh;
+    justify-content: space-between;
+}
+
+.admincarddiv {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2vw;
+    /* flex-direction: row; */
+}
+
+.directorcarddiv {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2vw;
+    justify-content: center;
+}
+
+/* === Individual Card === */
+.dashboard-card {
+    flex: 1 1 calc(25% - 32px);
+    width: 240px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.85);
+    color: #3949ab;
+    border-radius: 15px;
+    box-shadow: 0 4px 24px #b6c6e644;
+    padding: 28px 24px 22px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s, box-shadow 0.18s;
+    border-bottom: 4px solid #7b6fd6;
+    backdrop-filter: blur(2px);
+    cursor: pointer;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-6px) scale(1.035);
+    box-shadow: 0 8px 32px #7b6fd688;
+    background: rgba(255, 255, 255, 0.97);
+}
+
+.dashboard-card-icon {
+    min-width: 60px;
+    min-height: 60px;
+    font-size: 2.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px #34353644;
+}
+
+.dashboard-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+}
+
+.dashboard-card-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+}
+
+.dashboard-card-status {
+    font-size: 0.98rem;
+    color: #7b6fd6;
+    opacity: 0.85;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* === Chart Section === */
+.dashboard-charts-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.dashboard-chart-card {
+    flex: 1 1 calc(50% - 32px);
+    max-width: 30vw;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 4px 24px #b6c6e644;
+    padding: 28px 24px 22px 24px;
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-chart-card h2 {
+    color: #3949ab;
+    font-size: 1.18rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+}
+
+/* === Card SVG Wrapper === */
+.dashboard-card-svg {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+}
+
+/* Adjust icon size */
+.dashboard-card-svg svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* === Badge Styling === */
+.dashboard-card-badge {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    background-color: transparent;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Optional green variant if needed */
+.dashboard-card-badge.green svg circle {
+    fill: #22c55e !important;
+}
+
+
+/* === Responsive Breakpoints === */
+
+/* ✅ Large Screens (Desktop) */
+@media (min-width: 1280px) {
+    .dashboard-card {
+        flex: 1 1 calc(25% - 32px);
+    }
+
+    .dashboard-chart-card {
+        flex: 1 1 calc(50% - 32px);
+    }
+}
+
+/* ✅ Medium Screens (Tablets) */
+@media (max-width: 1024px) {
+    .dashboard-content {
+        padding: 32px 3vw;
+    }
+
+    .dashboard-card {
+        flex: 1 1 calc(45% - 32px);
+    }
+
+    .dashboard-chart-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+/* ✅ Small Screens (Mobiles) */
+@media (max-width: 768px) {
+    .dashboard-layout{
+        top: 5vh;
+        left: 0;
+    }
+    .dashboard-content {
+        padding: 24px 4vw;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 1.8rem;
+        /* flex-direction: column; */
+        gap: 8px;
+    }
+
+    .dashboard-card {
+        flex: 1 1 100%;
+        min-width: 82vw;
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-card-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.6rem;
+        margin-bottom: 8px;
+    }
+
+    .dashboard-chart-card {
+        flex: 1 1 100%;
+        padding: 20px 16px;
+    }
+
+    .dashboard-card {
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .dashboard-card-svg {
+        width: 44px;
+        height: 44px;
+    }
+
+    .dashboard-card-title,
+    .dashboard-card-value {
+        margin-left: 4px;
+    }
+}
+
+/* === Utility === */
+.display-none {
+    display: none;
+}
+
+.dashboardcomplaints-table-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    /* margin: 0 32px; */
+    max-width: 83vw;
+    padding: 24px;
+}
+
+.dashboardcomplaints-table-responsive {
+    overflow-x: auto;
+}
+
+.dashboardcomplaints-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.dashboardcomplaints-table th,
+.dashboardcomplaints-table td {
+    padding: 12px 16px;
+    text-align: left;
+}
+
+.dashboardcomplaints-table th {
+    background: #f2f6fa;
+    font-weight: 700;
+    font-size: 1rem;
+    border-bottom: 2px solid #e3e8ee;
+}
+
+.dashboardcomplaints-table td {
+    background: #fff;
+    font-size: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dashboardcomplaints-table a {
+    cursor: pointer;
+    color: #0033ff;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.dashboardcomplaints-no-data {
+    text-align: center;
+    color: #888;
+    padding: 32px 0;
+    font-size: 1.1rem;
+}
+
+.dashboardcomplaints-table-footer {
+    color: #444;
+    font-size: 0.95rem;
+    margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+    .dashboardcomplaints-table-card {
+        margin: 0 8px;
+        padding: 12px;
+    }
+
+    .dashboardcomplaints-header {
+        padding: 0 8px 12px 8px;
+    }
+
+    .dashboardcomplaints-gradient-text {
+        font-size: 1.3rem;
+    }
+
+    .dashboardcomplaints-table th,
+    .dashboardcomplaints-table td {
+        padding: 8px 6px;
+        font-size: 0.95rem;
+    }
+}

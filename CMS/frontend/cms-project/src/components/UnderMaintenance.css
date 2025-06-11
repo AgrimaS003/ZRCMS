@@ -1,0 +1,198 @@
+.maintenance-layout{
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    top:0;
+    min-height: 100vh;
+    width: 100%;
+}
+.maintenance-layout:first-child{
+    position: absolute;
+    top: 0;
+    left:0;
+}
+.maintenance-content{
+    /* background: linear-gradient(135deg, #ebf2fc, #fafafb); */
+    flex: 1;
+}
+
+#umaintenance {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    padding: 20px;
+    color: #fff;
+}
+
+#umaintenance img {
+    max-width: 100%;
+    height: auto;
+}
+/* Base Reset */
+/* body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  background-color: #f4f4f9;
+} */
+
+/* Layout Container */
+.maintenance-bg {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background: linear-gradient(135deg, #ebf2fc, #fafafb); */
+  /* background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%); */
+  padding: 5vw 3vw;
+}
+
+/* Main Card */
+.maintenance-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(18px);
+  border-radius: 24px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.18);
+  padding: 44px 36px 28px;
+  max-width: 120vw;
+  width: 100%;
+  animation: popIn 0.8s cubic-bezier(.68, -0.55, .27, 1.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Animation */
+@keyframes popIn {
+  0% { transform: scale(0.92) translateY(40px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Logo */
+.maintenance-logo-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.maintenance-logo {
+  width: 60%;
+  max-width: 220px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px #b6c6e6aa);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 6px;
+}
+
+/* Title */
+.maintenance-title {
+  text-align: center;
+  color: #1a237e;
+  font-weight: 700;
+  margin-bottom: 24px;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  text-shadow: 0 2px 8px #e3eafc;
+}
+
+/* Input Field Group */
+.maintenance-field {
+  width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.maintenance-field label {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  font-size: 1rem;
+  color: #7b6fd6;
+  font-weight: 600;
+  background: transparent;
+  z-index: 2;
+  pointer-events: none;
+  transition: 0.2s ease;
+}
+
+.maintenance-field input {
+  min-width: 70vw;
+  padding: 18px 14px 10px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #b6c6e6;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #1a237e;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 4px rgba(227, 234, 252, 0.3);
+}
+
+.maintenance-field input:focus {
+  border: 1.5px solid #3949ab;
+  background: #f5faff;
+  box-shadow: 0 2px 8px rgba(182, 198, 230, 0.6);
+}
+
+.maintenance-field input:focus + label,
+.maintenance-field input:not(:placeholder-shown) + label {
+  top: -13px;
+  left: 10px;
+  font-size: 0.88rem;
+  color: #a18cd1;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0 6px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+/* Button */
+.maintenance-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(90deg, #3949ab 0%, #1a237e 100%);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(182, 198, 230, 0.4);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.1s, box-shadow 0.2s;
+  margin-top: 10px;
+}
+
+.maintenance-btn:hover,
+.maintenance-btn:focus {
+  background: linear-gradient(90deg, #1a237e 0%, #3949ab 100%);
+  transform: translateY(-2px) scale(1.035);
+  box-shadow: 0 4px 18px rgba(182, 198, 230, 0.5);
+}
+
+/* Footer */
+.maintenance-footer {
+  width: 100%;
+  text-align: center;
+  margin-top: 24px;
+  color: #3949ab;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+/* Mobile Tweaks */
+@media (max-width: 500px) {
+  .maintenance-card {
+    padding: 24px 18px;
+  }
+
+  .maintenance-logo {
+    width: 80%;
+  }
+
+  .maintenance-title {
+    font-size: 1.4rem;
+  }
+}

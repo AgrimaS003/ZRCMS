@@ -1,0 +1,427 @@
+.dealercomplaintlist-layout {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    top: 0;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.dealercomplaintlist-layout:first-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.tag {
+    font-weight: 500;
+    color: #1a237e;
+}
+
+.dealercomplaintlist-content {
+    flex: 1;
+    padding: 48px 4vw 32px 4vw;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background: transparent;
+    min-width: 0;
+}
+
+.dealercomplaintlist-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    position: relative;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.dealercomplaintlist-hero-bg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 0;
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+.dealercomplaintlist-hero h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+}
+
+.dealercomplaintlist-gradient-text {
+    background: linear-gradient(90deg, #250ed2 0%, #071151 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dealercomplaintlist-emoji {
+    font-size: 2.2rem;
+    margin-left: 2px;
+    animation: dealercomplaintlist-emoji-pop 1.2s infinite alternate;
+}
+
+@keyframes dealercomplaintlist-emoji-pop {
+    0% {
+        transform: scale(1) rotate(-8deg);
+    }
+    100% {
+        transform: scale(1.18) rotate(8deg);
+    }
+}
+
+.dealercomplaintlist-breadcrumb {
+    color: #7b6fd6;
+    font-size: 1.05rem;
+    margin-top: 6px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.dealercomplaintlist-breadcrumb .tag {
+    background: #e0eafc;
+    color: #7b6fd6;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 0.98rem;
+}
+
+.dealercomplaintlist-cards-row {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dealercomplaintlist-card {
+    flex: 1 1 220px;
+    min-width: 220px;
+    max-width: 320px;
+    background: rgba(255, 255, 255, 0.85);
+    color: #3949ab;
+    border-radius: 22px;
+    box-shadow: 0 4px 24px #b6c6e644;
+    padding: 28px 24px 22px 24px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+    border-bottom: 4px solid #7b6fd6;
+    backdrop-filter: blur(2px);
+    box-sizing: border-box;
+}
+
+.dealercomplaintlist-card:hover {
+    transform: translateY(-6px) scale(1.035);
+    box-shadow: 0 8px 32px #7b6fd688;
+    background: rgba(255, 255, 255, 0.97);
+}
+
+.dealercomplaintlist-card-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #e0eafc 0%, #7b6fd6 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    margin-right: 8px;
+    box-shadow: 0 2px 8px #b6c6e644;
+    position: relative;
+}
+
+.dealercomplaintlist-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+}
+
+.dealercomplaintlist-card-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+}
+
+.dealercomplaintlist-card-status {
+    font-size: 0.98rem;
+    color: #7b6fd6;
+    opacity: 0.85;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Status badges */
+.dealercomplaintlist-status {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 14px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    background: #e0eafc;
+    color: #250ed2;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 4px #7b6fd61a;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* Status colors */
+.status-0 { background: #e3f2fd; color: #1976d2; }      /* Initiated */
+.status-1 { background: #ede7f6; color: #512da8; }      /* Under Review */
+.status-2 { background: #e8f5e9; color: #388e3c; }      /* Assign To Manager */
+.status-3 { background: #ffebee; color: #d32f2f; }      /* Rejected By Manager */
+.status-4 { background: #fffde7; color: #fbc02d; }      /* Assign To Supervision */
+.status-5 { background: #ffebee; color: #c62828; }      /* Rejected By Supervision */
+.status-6 { background: #e1f5fe; color: #0288d1; }      /* Assign To Field Inspector */
+.status-7 { background: #ffebee; color: #ad1457; }      /* Rejected By Field Inspector */
+.status-8 { background: #f3e5f5; color: #6a1b9a; }      /* Assign To Quality Check */
+.status-9 { background: #ffebee; color: #b71c1c; }      /* Rejected By Quality Check */
+.status-10 { background: #e0f2f1; color: #00897b; }     /* Assign To Sales Head */
+.status-11 { background: #ffebee; color: #c62828; }     /* Rejected By Sales Head */
+.status-12 { background: #f1f8e9; color: #689f38; }     /* Assign To Director */
+.status-13 { background: #ffebee; color: #d84315; }     /* Rejected By Director */
+.status-14 { background: #f9fbe7; color: #afb42b; }     /* Assign To Account */
+.status-15 { background: #ffebee; color: #b71c1c; }     /* Rejected By Account */
+.status-16 { background: #fffde7; color: #fbc02d; }     /* Pending */
+.status-17 { background: #e8f5e9; color: #388e3c; }     /* Claim Pass */
+.status-18 { background: #e0f7fa; color: #00796b; }     /* Generated Voucher */
+
+.dealercomplaintlist-view-btn {
+    background: linear-gradient(90deg, #250ed2 0%, #071151 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 18px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.dealercomplaintlist-view-btn:hover {
+    background: linear-gradient(90deg, #071151 0%, #250ed2 100%);
+}
+
+.dealercomplaintlist-no-data {
+    text-align: center;
+    padding: 24px 0;
+    color: #7b6fd6;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.dealercomplaintlist-table-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #7b6fd61a;
+    min-width: 75vw;
+    margin: 0 auto 32px auto;
+    padding: 0 0 16px 0;
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+}
+
+.dealercomplaintlist-table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 24px 0 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.dealercomplaintlist-table-controls label {
+    font-weight: 600;
+    color: #6366f1;
+    font-size: 1rem;
+    margin-right: 18px;
+}
+
+.dealercomplaintlist-table-controls select,
+.dealercomplaintlist-table-controls input[type="text"] {
+    margin-left: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1.5px solid #e0eafc;
+    background: #f8fafc;
+    font-size: 1rem;
+    min-width: 160px;
+    box-sizing: border-box;
+}
+
+.dealercomplaintlist-table-controls-right input[type="text"] {
+    min-width: 160px;
+}
+
+.dealercomplaintlist-table-responsive {
+    overflow-x: auto;
+    margin-top: 18px;
+    padding: 0 24px;
+}
+
+.dealercomplaintlist-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    min-width: 600px;
+}
+
+.dealercomplaintlist-table th,
+.dealercomplaintlist-table td {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.dealercomplaintlist-table th {
+    background: #f4f6fb;
+    color: #071151;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.dealercomplaintlist-table tbody tr:hover {
+    background: #f0f4ff;
+}
+
+.dealercomplaintlist-table-footer {
+    margin: 16px 24px 0 24px;
+    color: #6366f1;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.dealercomplaintlist-footer {
+    text-align: center;
+    color: #7b6fd6;
+    font-size: 1rem;
+    padding: 24px 0 12px 0;
+    margin-top: auto;
+    width: 100%;
+    position: relative;
+    left: 0;
+    bottom: 0;
+}
+
+/* Responsive adjustments */
+
+/* Medium screens below 900px */
+@media (max-width: 900px) {
+    .dealercomplaintlist-header,
+    .dealercomplaintlist-table-card {
+        max-width: 98vw;
+    }
+
+    .dealercomplaintlist-table-controls {
+        padding: 18px 2vw 0 2vw;
+        gap: 10px;
+    }
+
+    .dealercomplaintlist-table-responsive {
+        padding: 0 2vw;
+    }
+
+    .dealercomplaintlist-table-footer {
+        margin: 12px 2vw 0 2vw;
+    }
+
+    .dealercomplaintlist-cards-row {
+        justify-content: center;
+        gap: 20px;
+    }
+}
+
+/* Small screens below 600px */
+@media (max-width: 600px) {
+    .dealercomplaintlist-header,
+    .dealercomplaintlist-table-card {
+        min-width: 80vw;
+        padding: 6vw;
+        margin: 0;
+    }
+
+    .dealercomplaintlist-table-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 1vw 0 1vw;
+    }
+
+    .dealercomplaintlist-table-controls label {
+        margin-right: 0;
+        font-size: 0.95rem;
+    }
+
+    .dealercomplaintlist-table-controls select,
+    .dealercomplaintlist-table-controls input[type="text"] {
+        margin-left: 0;
+        width: 100%;
+        min-width: auto;
+    }
+
+    .dealercomplaintlist-table-controls-right input[type="text"] {
+        min-width: 100%;
+    }
+
+    .dealercomplaintlist-table-responsive {
+        padding: 0 1vw;
+    }
+
+    .dealercomplaintlist-table th,
+    .dealercomplaintlist-table td {
+        font-size: 0.95rem;
+        padding: 8px 6px;
+    }
+
+    .dealercomplaintlist-table {
+        min-width: 100%;
+    }
+
+    .dealercomplaintlist-table-footer {
+        margin: 10px 1vw 0 1vw;
+        font-size: 0.95rem;
+    }
+
+    .dealercomplaintlist-cards-row {
+        gap: 16px;
+        justify-content: center;
+    }
+
+    .dealercomplaintlist-hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dealercomplaintlist-hero h1 {
+        font-size: 2rem;
+    }
+
+    .dealercomplaintlist-emoji {
+        font-size: 1.8rem;
+        margin-left: 0;
+    }
+}
