@@ -170,6 +170,25 @@ th {
 #delete-button :hover{
   background-color: #b91c1c;
 }
+#approve-button,
+#reject-button {
+  padding: 6px 12px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#approve-button {
+  background-color: #28a745;
+}
+
+#reject-button {
+  background-color: #dc3545;
+}
+
 #form-image-name{
    font-weight: 600;
    font-size: 20px;

@@ -113,7 +113,7 @@ const QC_Complaint_List = () => {
                                               onClick={() => {
                                                 if (complaint.claim_id) {
                                                   navigate(`/${usertype}/form_view`, {
-                                                    state: { claim_id: complaint.claim_id }
+                                                    state: { claim_id: complaint.report_no }
                                                   });
                                                 } else {
                                                   console.error('Claim ID is undefined!');
