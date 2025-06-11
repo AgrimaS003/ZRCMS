@@ -129,7 +129,7 @@ function ManageStaff() {
                         staff.s_department_id === "2" && 'SuperVisor' ||
                         staff.s_department_id === "3" && 'Inspection' ||
                         staff.s_department_id === "4" && 'Quality_Check' ||
-                        staff.s_department_id === "5" && 'Sales_Head<' ||
+                        staff.s_department_id === "5" && 'Sales_Head' ||
                         staff.s_department_id === "6" && 'Director' ||
                         staff.s_department_id === "7" && 'Account'}
                     </td>

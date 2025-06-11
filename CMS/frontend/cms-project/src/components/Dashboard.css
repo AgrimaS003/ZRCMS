@@ -266,7 +266,7 @@
 
     .dashboard-hero h1 {
         font-size: 1.8rem;
-        /* flex-direction: column; */
+        flex-direction: row;
         gap: 8px;
     }
 
@@ -388,5 +388,11 @@
     .dashboardcomplaints-table td {
         padding: 8px 6px;
         font-size: 0.95rem;
+    }
+}
+@media (max-width: 500px){
+    .dashboard-hero h1{
+        flex-direction: row;
+        flex-wrap: nowrap;
     }
 }
