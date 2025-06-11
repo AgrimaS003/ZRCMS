@@ -707,35 +707,131 @@ def claim_passed(usertype):
         return jsonify({"error_msg":str(e)}), 500
 
 ######
+# @app.route('/<usertype>/get_claim_data', methods=['POST'])
+# def get_claim_data(usertype):
+#     try:
+#         data = request.get_json()       
+#         email=data.get('email')
+#         claim_id=data.get('claim_id')
+#         db=get_connection()
+#         cursor = db.cursor(dictionary=True)
+
+#         if usertype.lower() == 'dealer':
+#             query = "SELECT s_dealer_id AS user_id, s_dealer_name AS user_name, s_dealer_company AS user_company FROM m_dealer WHERE s_dealer_email = %s"
+#         elif usertype.lower() == 'branch':
+#             query = "SELECT s_branch_id AS user_id, s_branch_name AS user_name, s_branch_company AS user_company FROM m_branch WHERE s_branch_email = %s"
+#         else:
+#             return jsonify({"success": False, "message": "Invalid usertype"}), 400
+
+#         cursor.execute(query,(email,))
+#         user=cursor.fetchone()
+#         user_id=user['user_id']
+#         user_name = user['user_name']
+#         user_company = user['user_company']
+
+#         complaint_query="select * from z_complaints_1 where claim_id = %s AND dealer_id = %s"
+#         cursor.execute(complaint_query,(claim_id, user_id,))
+#         complaint_info=cursor.fetchone()
+
+#         complaint_info['dealer_name'] = user_name
+#         complaint_info['dealer_company'] = user_company
+        
+#         table_data_query = """
+#             SELECT FinancialYear, Sales, SettledClaim, ClaimPercentage
+#             FROM tr_business_review
+#             WHERE Claim_id = %s
+#             ORDER BY FinancialYear
+#         """
+#         cursor.execute(table_data_query, (claim_id,))
+#         table_data = cursor.fetchall()
+#         complaint_info['table_data'] = table_data
+
+#         cursor.close()
+#         db.close()
+#         return jsonify({'success':True, 'data':complaint_info}), 200
+    
+#     except Exception as e:
+#         print(str(e))
+#         return jsonify({"error_msg" : str(e)}), 500
+
+
 @app.route('/<usertype>/get_claim_data', methods=['POST'])
 def get_claim_data(usertype):
     try:
         data = request.get_json()       
-        email=data.get('email')
-        claim_id=data.get('claim_id')
-        db=get_connection()
+        email = data.get('email')
+        input_id = data.get('claim_id')  # This is report_no for staff, claim_id otherwise
+
+        db = get_connection()
         cursor = db.cursor(dictionary=True)
 
-        if usertype.lower() == 'dealer':
-            query = "SELECT s_dealer_id AS user_id, s_dealer_name AS user_name, s_dealer_company AS user_company FROM m_dealer WHERE s_dealer_email = %s"
-        elif usertype.lower() == 'branch':
-            query = "SELECT s_branch_id AS user_id, s_branch_name AS user_name, s_branch_company AS user_company FROM m_branch WHERE s_branch_email = %s"
+        staff_roles = ['manager', 'supervisor', 'inspection', 'quality_check', 'sales_head', 'director', 'account']
+        usertype_lower = usertype.lower()
+
+        complaint_info = None
+
+        # Case 1: STAFF → convert report_no to claim_id
+        if usertype_lower in staff_roles:
+            cursor.execute("SELECT claim_id FROM z_complaints_1 WHERE report_no = %s", (input_id,))
+            row = cursor.fetchone()
+            if not row:
+                return jsonify({"success": False, "message": "Invalid report_no"}), 404
+            claim_id = row['claim_id']
+            complaint_query = "SELECT * FROM z_complaints_1 WHERE claim_id = %s"
+            cursor.execute(complaint_query, (claim_id,))
+            complaint_info = cursor.fetchone()
+            if complaint_info:
+                dealer_id = complaint_info.get('dealer_id')
+                cursor.execute("SELECT s_dealer_name, s_dealer_company FROM m_dealer WHERE s_dealer_id = %s", (dealer_id,))
+                dealer = cursor.fetchone()
+
+                if dealer:
+                    complaint_info['dealer_name'] = dealer['s_dealer_name']
+                    complaint_info['dealer_company'] = dealer['s_dealer_company']
+                else:
+                    # If not found in dealer, try branch table
+                    cursor.execute("SELECT s_branch_name, s_branch_company FROM m_branch WHERE s_branch_id = %s", (dealer_id,))
+                    branch = cursor.fetchone()
+                    if branch:
+                        complaint_info['dealer_name'] = branch['s_branch_name']
+                        complaint_info['dealer_company'] = branch['s_branch_company']
+
+
+        # Case 2: DEALER
+        elif usertype_lower == 'dealer':
+            cursor.execute("SELECT s_dealer_id, s_dealer_name, s_dealer_company FROM m_dealer WHERE s_dealer_email = %s", (email,))
+            user = cursor.fetchone()
+            if not user:
+                return jsonify({"success": False, "message": "Dealer not found"}), 404
+
+            claim_id = input_id
+            cursor.execute("SELECT * FROM z_complaints_1 WHERE claim_id = %s AND dealer_id = %s", (claim_id, user['s_dealer_id']))
+            complaint_info = cursor.fetchone()
+            if complaint_info:
+                complaint_info['dealer_name'] = user['s_dealer_name']
+                complaint_info['dealer_company'] = user['s_dealer_company']
+
+        # Case 3: BRANCH
+        elif usertype_lower == 'branch':
+            cursor.execute("SELECT s_branch_id, s_branch_name, s_branch_company FROM m_branch WHERE s_branch_email = %s", (email,))
+            user = cursor.fetchone()
+            if not user:
+                return jsonify({"success": False, "message": "Branch not found"}), 404
+
+            claim_id = input_id
+            cursor.execute("SELECT * FROM z_complaints_1 WHERE claim_id = %s AND dealer_id = %s", (claim_id, user['s_branch_id']))
+            complaint_info = cursor.fetchone()
+            if complaint_info:
+                complaint_info['dealer_name'] = user['s_branch_name']
+                complaint_info['dealer_company'] = user['s_branch_company']
+
         else:
             return jsonify({"success": False, "message": "Invalid usertype"}), 400
 
-        cursor.execute(query,(email,))
-        user=cursor.fetchone()
-        user_id=user['user_id']
-        user_name = user['user_name']
-        user_company = user['user_company']
+        if not complaint_info:
+            return jsonify({"success": False, "message": "Complaint not found"}), 404
 
-        complaint_query="select * from z_complaints_1 where claim_id = %s AND dealer_id = %s"
-        cursor.execute(complaint_query,(claim_id, user_id,))
-        complaint_info=cursor.fetchone()
-
-        complaint_info['dealer_name'] = user_name
-        complaint_info['dealer_company'] = user_company
-        
+        # Business review table
         table_data_query = """
             SELECT FinancialYear, Sales, SettledClaim, ClaimPercentage
             FROM tr_business_review
@@ -748,15 +844,17 @@ def get_claim_data(usertype):
 
         cursor.close()
         db.close()
-        return jsonify({'success':True, 'data':complaint_info}), 200
-    
+
+        return jsonify({'success': True, 'data': complaint_info}), 200
+
     except Exception as e:
         print(str(e))
-        return jsonify({"error_msg" : str(e)}), 500
+        return jsonify({"error_msg": str(e)}), 500
+
 
 ######
-@app.route('/<usertype>/get_photos',methods=['POST'])
-def get_photos(usertype):
+# @app.route('/<usertype>/get_photos',methods=['POST'])
+# def get_photos(usertype):
     try:
         data=request.get_json()
         email=data.get('email')
@@ -814,6 +912,98 @@ def get_photos(usertype):
     except Exception as e:
         print(str(e))
         return jsonify({"error_msg":str(e)}), 500
+
+@app.route('/<usertype>/get_photos', methods=['POST'])
+def get_photos(usertype):
+    try:
+        data = request.get_json()
+        print("Request Data:", data)
+
+        email = data.get('email')
+        claim_id = data.get('claim_id')  # This is report_no only for staff roles
+        print("Email:", email)
+        print("Claim ID (or report_no for staff):", claim_id)
+
+        if not claim_id:
+            return jsonify({"success": False, "message": "Missing claim_id"}), 400
+
+        staff_roles = ['manager', 'supervisor', 'inspection', 'quality_check', 'sales_head', 'director', 'account']
+        db = get_connection()
+        cursor = db.cursor(dictionary=True)
+
+        usertype_lower = usertype.lower()
+
+        # Step 1: Handle staff roles — convert report_no to actual claim_id
+        if usertype_lower in staff_roles:
+            cursor.execute("SELECT claim_id FROM z_complaints_1 WHERE report_no = %s", (claim_id,))
+            row = cursor.fetchone()
+            if not row:
+                return jsonify({"success": False, "message": "Invalid report_no for staff"}), 404
+            actual_claim_id = row['claim_id']
+        else:
+            # For dealer/branch, assume claim_id is already valid
+            actual_claim_id = claim_id
+
+        # Step 2: Define photo query
+        photo_query = """
+            SELECT 
+                p.s_photo_id,
+                p.s_photo_name,
+                p.s_photo,
+                p.s_photo_type,
+                ps.status_name AS s_photo_status,
+                p.ns_remarks
+            FROM tr_defectivephotos p
+            LEFT JOIN photo_status ps ON p.s_photo_status = ps.status_code
+            WHERE p.s_claim_id = %s
+        """
+
+        # Step 3: Role-based access
+        if usertype_lower in staff_roles:
+            # Staff can access any claim
+            cursor.execute(photo_query, (actual_claim_id,))
+
+        elif usertype_lower == 'dealer':
+            id_query = """
+                SELECT s_dealer_id AS id FROM m_dealer WHERE s_dealer_email = %s
+            """
+            cursor.execute(id_query, (email,))
+            if not cursor.fetchone():
+                return jsonify({"success": False, "message": "Dealer not found"}), 404
+
+            cursor.execute(photo_query, (actual_claim_id,))
+
+        elif usertype_lower == 'branch':
+            id_query = """
+                SELECT s_branch_id AS id FROM m_branch WHERE s_branch_email = %s
+            """
+            cursor.execute(id_query, (email,))
+            if not cursor.fetchone():
+                return jsonify({"success": False, "message": "Branch not found"}), 404
+
+            cursor.execute(photo_query, (actual_claim_id,))
+
+        else:
+            return jsonify({"success": False, "message": "Invalid usertype"}), 400
+
+        # Step 4: Format result
+        photos = cursor.fetchall()
+        for photo in photos:
+            if photo['s_photo']:
+                encoded = base64.b64encode(photo['s_photo']).decode('utf-8')
+                photo['s_photo_base64'] = f"data:{photo['s_photo_type']};base64,{encoded}"
+            else:
+                photo['s_photo_base64'] = None
+            photo.pop('s_photo', None)
+
+        cursor.close()
+        db.close()
+
+        return jsonify({"success": True, "photos": photos}), 200
+
+    except Exception as e:
+        print("Exception:", str(e))
+        return jsonify({"error_msg": str(e)}), 500
 
 ######
 @app.route('/<usertype>/update_photo',methods=['POST'])

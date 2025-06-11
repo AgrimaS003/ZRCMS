@@ -56,7 +56,7 @@ const InstructionCard = () => {
           </p>
           {visibleIndex === index &&
             section.content.map((line, i) => (
-              <p key={i} style={{ marginBottom: '8px' }}>{line}</p>
+              <span key={i} style={{ marginBottom: '8px' }}>{line}</span>
             ))
           }
           <hr />

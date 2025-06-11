@@ -27,6 +27,8 @@ const FormView = () => {
     const email = localStorage.getItem('userEmail');
     const usertype = localStorage.getItem('usertype').toLowerCase();
     const [message , setMessage] = useState('');
+    const allowedRoles = ['dealer', 'branch'];
+    const staffRoles = ['manager', 'supervisor', 'inspection', 'quality_check', 'sales_head', 'director', 'account']
     // console.log("Claim ID:", claim_id);
     // console.log("Email:", email);
     const [complaintData, setComplaintData] = useState(null);
@@ -45,7 +47,7 @@ const FormView = () => {
           setError(response.data.message);
         }
     } 
-    catch (err) { 
+    catch (err) {
       console.log(err)
     }
   }
@@ -65,11 +67,11 @@ const FormView = () => {
     }
   };
    useEffect(() => {
-    if (claim_id) {
+    if (claim_id ) {
       fetchClaimById();
       fetchPhotos();
     }
-  }, [claim_id]);
+  }, [claim_id, usertype]);
 
 const handleOpenBase64Image = (base64String, mimeType = 'image/jpeg') => {
   // Remove base64 header if present
@@ -455,15 +457,29 @@ const handleDelete = async (s_photo_id) => {
                                       style={{ cursor: 'pointer' }}
                                       onClick={() => handleOpenBase64Image(photo.s_photo_base64)}
                                     />
-                      <button
-                        id="edit-button"
-                        onClick={() => navigate(`/${usertype}/reupload_document`,{ state: { photo: { ...photo, s_claim_id: claim_id } } })}
-                      >
-                        Edit
-                      </button>
-                      <button id="delete-button" onClick={() => handleDelete(photo.s_photo_id)}>
-                        Delete
-                      </button>
+                    {allowedRoles.includes(usertype) ? (
+                          <>
+                            <button
+                              id="edit-button"
+                              onClick={() => navigate(`/${usertype}/reupload_document`, { state: { photo: { ...photo, s_claim_id: claim_id } } })}
+                            >
+                              Edit
+                            </button>
+                            <button id="delete-button" onClick={() => handleDelete(photo.s_photo_id)}>
+                              Delete
+                            </button>
+                          </>
+                        ) : staffRoles.includes(usertype) ? (
+                          <>
+                            <button id="approve-button" onClick={() => console.log('Approve clicked')}>
+                              Approve
+                            </button>
+                            <button id="reject-button" onClick={() => console.log('Reject clicked')}>
+                              Reject
+                            </button>
+                          </>
+                        ) : null}
+
                     </div>
                   </div>
                 ))}

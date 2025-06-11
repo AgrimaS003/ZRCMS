@@ -204,7 +204,7 @@ const Dashboard = () => {
 )}
 {usertype?.toLowerCase() === 'branch' && monthlyComplaints.length > 0 && (
   <div className="dashboard-barchart-section">
-    <h3 style={{ marginBottom: '10px' }}>Monthly Complaint Count</h3>
+    <h3 style={{ marginBottom: '10px' }}>Monthly Complaints Count</h3>
     <ResponsiveContainer width="100%" height={300}>
       <BarChart data={monthlyComplaints}>
         <XAxis dataKey="month" />
