@@ -31,7 +31,7 @@ const Profile = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    const fetchedProfile ={
+                    const fetchedProfile = {
                     name: data.profile.name,
                     email: data.profile.email,
                     company: data.profile.company,

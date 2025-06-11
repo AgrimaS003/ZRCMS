@@ -46,7 +46,6 @@ const Header = () => {
           );
       }
     }, [user,setUser,user?.name, user?.email]);
-    console.log(user)
 
   const toggleSidebar = () => {
     setShowSidebar(prev => !prev);
