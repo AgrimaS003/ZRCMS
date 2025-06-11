@@ -1,3 +1,4 @@
 node_modules
 response.json
 package-lock.json
+.env
