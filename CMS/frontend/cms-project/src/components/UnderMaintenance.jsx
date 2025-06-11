@@ -64,13 +64,15 @@ const UnderMaintenance = () => {
             <img src={logo} alt="Logo" className="maintenance-logo" />
           </div>
           <h2 className="maintenance-title">Maintenance Schedule</h2>
-          <div className="maintenance-field">
-            <input type="datetime-local" name="startDate" id="sdate" required placeholder=" " />
-            <label htmlFor="sdate">Start Date and Time</label>
-          </div>
-          <div className="maintenance-field">
-            <input type="datetime-local" name="endDate" id="edate" required placeholder=" " />
-            <label htmlFor="edate">End Date and Time</label>
+          <div>
+            <div className="maintenance-field">
+              <input type="datetime-local" name="startDate" id="sdate" required placeholder=" " />
+              <label htmlFor="sdate">Start Date and Time</label>
+            </div>
+            <div className="maintenance-field">
+              <input type="datetime-local" name="endDate" id="edate" required placeholder=" " />
+              <label htmlFor="edate">End Date and Time</label>
+            </div>
           </div>
           <button className="maintenance-btn" type='submit'>Submit</button>
           <div className="maintenance-footer">
