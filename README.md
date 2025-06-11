@@ -19,3 +19,4 @@
 | Flask-CORS              | 6.0.0   |
 | bcrypt                  | 4.3.0   |
 | mysql-connector-python  | 9.3.0   |
+| python-dotenv           | 25.1.1  |
