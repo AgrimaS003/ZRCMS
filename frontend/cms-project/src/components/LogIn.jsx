@@ -34,7 +34,8 @@ function LogIn(){
             },1000);
           }
           else{
-            setMsg('Login Failed'); 
+            setMsg('Login Failed');
+            setTimeout(() => setMsg(''), 2000);
           }
         })
         .catch(err=>{
