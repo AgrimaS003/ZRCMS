@@ -33,20 +33,20 @@ const Sidebar = () => {
         
         {isStaff ? (
   // If user is staff → show single redirect item without dropdown
-  <li>
-    <a className="nav-link" onClick={() => navigate(`/${usertype}/all_complaint_list`)}>
-      <i className="bi bi-list-check"></i>
-      <span id="color-id">Complaint List</span>
-    </a>
-  </li>
-) : (
-  // For other users → show dropdown with submenu
-  <li className="nav-item">
-    <a className="nav-link" onClick={() => handleSubMenuToggle('complain-list')}>
-      <i className="bi bi-list-check"></i>
-      <span id="color-id">Complaint List</span>
-      <i className="bi bi-chevron-down ms-auto" style={{ marginLeft: '8px' }}></i>
-    </a>
+              <li>
+                <a className="nav-link" onClick={() => navigate(`/${usertype}/all_complaint_list`)}>
+                  <i className="bi bi-list-check"></i>
+                  <span id="color-id">Complaint List</span>
+                </a>
+              </li>
+            ) : (
+              // For other users → show dropdown with submenu
+              <li className="nav-item">
+                <a className="nav-link" onClick={() => handleSubMenuToggle('complain-list')}>
+                  <i className="bi bi-list-check"></i>
+                  <span id="color-id">Complaint List</span>
+                  <i className="bi bi-chevron-down ms-auto" style={{ marginLeft: '8px' }}></i>
+                </a>
 
     {activeSubMenu === 'complain-list' && (
       <ul className="nav-content">
