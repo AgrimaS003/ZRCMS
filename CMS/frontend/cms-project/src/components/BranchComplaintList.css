@@ -1,0 +1,542 @@
+.branchcomplaintlist-layout {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    top: 0;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.branchcomplaintlist-layout:first-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.tag {
+    font-weight: 500;
+    color: #1a237e;
+}
+
+.branchcomplaintlist-content {
+    flex: 1;
+    padding: 48px 4vw 32px 4vw;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background: transparent;
+    min-width: 0;
+}
+
+.branchcomplaintlist-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    position: relative;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.branchcomplaintlist-hero-bg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 0;
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+.branchcomplaintlist-hero h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+}
+
+.branchcomplaintlist-gradient-text {
+    background: linear-gradient(90deg, #250ed2 0%, #071151 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.branchcomplaintlist-emoji {
+    font-size: 2.2rem;
+    margin-left: 2px;
+    animation: branchcomplaintlist-emoji-pop 1.2s infinite alternate;
+}
+
+@keyframes branchcomplaintlist-emoji-pop {
+    0% {
+        transform: scale(1) rotate(-8deg);
+    }
+
+    100% {
+        transform: scale(1.18) rotate(8deg);
+    }
+}
+
+.branchcomplaintlist-breadcrumb {
+    color: #7b6fd6;
+    font-size: 1.05rem;
+    margin-top: 6px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.branchcomplaintlist-breadcrumb .tag {
+    background: #e0eafc;
+    color: #7b6fd6;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 0.98rem;
+}
+
+.branchcomplaintlist-cards-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 36px;
+}
+
+.branchcomplaintlist-card {
+    flex: 1 1 220px;
+    min-width: 220px;
+    max-width: 320px;
+    background: rgba(255, 255, 255, 0.85);
+    color: #3949ab;
+    border-radius: 22px;
+    box-shadow: 0 4px 24px #b6c6e644;
+    padding: 28px 24px 22px 24px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+    border-bottom: 4px solid #7b6fd6;
+    backdrop-filter: blur(2px);
+    box-sizing: border-box;
+}
+
+.branchcomplaintlist-card:hover {
+    transform: translateY(-6px) scale(1.035);
+    box-shadow: 0 8px 32px #7b6fd688;
+    background: rgba(255, 255, 255, 0.97);
+}
+
+.branchcomplaintlist-card-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #e0eafc 0%, #7b6fd6 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    margin-right: 8px;
+    box-shadow: 0 2px 8px #b6c6e644;
+    position: relative;
+}
+
+.branchcomplaintlist-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+}
+
+.branchcomplaintlist-card-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+}
+
+.branchcomplaintlist-card-status {
+    font-size: 0.98rem;
+    color: #7b6fd6;
+    opacity: 0.85;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.branchcomplaintlist-status {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 14px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    background: #e0eafc;
+    color: #250ed2;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 4px #7b6fd61a;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* Status colors */
+.status-0 {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-1 {
+    background: #ede7f6;
+    color: #512da8;
+}
+
+.status-2 {
+    background: #e8f5e9;
+    color: #388e3c;
+}
+
+.status-3 {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.status-4 {
+    background: #fffde7;
+    color: #fbc02d;
+}
+
+.status-5 {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.status-6 {
+    background: #e1f5fe;
+    color: #0288d1;
+}
+
+.status-7 {
+    background: #ffebee;
+    color: #ad1457;
+}
+
+.status-8 {
+    background: #f3e5f5;
+    color: #6a1b9a;
+}
+
+.status-9 {
+    background: #ffebee;
+    color: #b71c1c;
+}
+
+.status-10 {
+    background: #e0f2f1;
+    color: #00897b;
+}
+
+.status-11 {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.status-12 {
+    background: #f1f8e9;
+    color: #689f38;
+}
+
+.status-13 {
+    background: #ffebee;
+    color: #d84315;
+}
+
+.status-14 {
+    background: #f9fbe7;
+    color: #afb42b;
+}
+
+.status-15 {
+    background: #ffebee;
+    color: #b71c1c;
+}
+
+.status-16 {
+    background: #fffde7;
+    color: #fbc02d;
+}
+
+.status-17 {
+    background: #e8f5e9;
+    color: #388e3c;
+}
+
+.status-18 {
+    background: #e0f7fa;
+    color: #00796b;
+}
+
+.branchcomplaintlist-view-btn {
+    background: linear-gradient(90deg, #250ed2 0%, #071151 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 18px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.branchcomplaintlist-view-btn:hover {
+    background: linear-gradient(90deg, #071151 0%, #250ed2 100%);
+}
+
+.branchcomplaintlist-no-data {
+    text-align: center;
+    padding: 24px 0;
+    color: #7b6fd6;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.branchcomplaintlist-table-card {
+    min-width: 70vw;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #7b6fd61a;
+    margin: 0 auto 32px auto;
+    padding: 2vw;
+    display: flex;
+    flex-direction: column;
+    /* overflow-x: auto; */
+    background: #fff;
+}
+
+.branchcomplaintlist-table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 24px 0 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.branchcomplaintlist-table-controls label {
+    font-weight: 600;
+    color: #6366f1;
+    font-size: 1rem;
+    margin-right: 18px;
+}
+
+.branchcomplaint-search {
+    display: flex;
+    /* align-items: center; */
+    gap: 24px;
+    margin-bottom: 16px;
+    /* justify-content: center; */
+}
+
+.branchcomplaintlist-table-controls select,
+.branchcomplaintlist-table-controls input[type="text"],
+.branchcomplaintlist-table-card select {
+    margin-left: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1.5px solid #e0eafc;
+    background: #f8fafc;
+    font-size: 1rem;
+    min-width: 160px;
+    box-sizing: border-box;
+}
+
+.branchcomplaintlist-table-controls-right input[type="text"] {
+    min-width: 160px;
+}
+
+.branchcomplaintlist-table-responsive {
+    overflow-x: auto;
+    margin-top: 18px;
+    padding: 0 24px;
+}
+
+/* .branchcomplaintlist-table-responsive::after {
+    content: "← Scroll →";
+    font-size: 0.85rem;
+    color: #999;
+    text-align: right;
+    display: block;
+    margin-top: 8px;
+} */
+
+.branchcomplaintlist-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    min-width: 600px;
+}
+
+.branchcomplaintlist-table th,
+.branchcomplaintlist-table td {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.branchcomplaintlist-table th {
+    background: #f4f6fb;
+    color: #071151;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.branchcomplaintlist-table tbody tr:hover {
+    background: #f0f4ff;
+}
+
+.branchcomplaintlist-table-footer {
+    margin: 16px 24px 0 24px;
+    color: #6366f1;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.branchcomplaintlist-footer {
+    text-align: center;
+    color: #7b6fd6;
+    font-size: 1rem;
+    padding: 24px 0 12px 0;
+    margin-top: auto;
+    width: 100%;
+    position: relative;
+    left: 0;
+    bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+
+    .branchcomplaintlist-header,
+    .branchcomplaintlist-table-card {
+        max-width: 98vw;
+    }
+
+    .branchcomplaintlist-table-controls {
+        padding: 18px 2vw 0 2vw;
+        gap: 10px;
+    }
+
+    .branchcomplaintlist-table-responsive {
+        padding: 0 2vw;
+    }
+
+    .branchcomplaintlist-table-footer {
+        margin: 12px 2vw 0 2vw;
+    }
+
+    .branchcomplaintlist-cards-row {
+        justify-content: center;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .branchcomplaintlist-header,
+    .branchcomplaintlist-table-card {
+        /* min-width: 80vw; */
+        padding: 6vw;
+        margin: 0;
+    }
+
+    .branchcomplaintlist-content {
+        padding: 24px 4vw 24px 4vw;
+    }
+
+    .branchcomplaintlist-table-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 1vw 0 1vw;
+    }
+
+    .branchcomplaintlist-table-controls label {
+        margin-right: 0;
+        font-size: 0.95rem;
+    }
+
+    .branchcomplaintlist-table-controls select,
+    .branchcomplaintlist-table-controls input[type="text"] {
+        margin-left: 0;
+        width: 100%;
+        min-width: auto;
+    }
+
+    .branchcomplaintlist-table-controls-right input[type="text"] {
+        min-width: 100%;
+    }
+
+    .branchcomplaintlist-table-responsive {
+        padding: 0 1vw;
+    }
+
+    .branchcomplaintlist-table th,
+    .branchcomplaintlist-table td {
+        font-size: 0.95rem;
+        padding: 8px 6px;
+    }
+
+    /* .branchcomplaintlist-table {
+        min-width: 100%;
+    } */
+
+    .branchcomplaintlist-table-footer {
+        margin: 10px 1vw 0 1vw;
+        font-size: 0.95rem;
+    }
+
+    .branchcomplaintlist-cards-row {
+        gap: 16px;
+        justify-content: center;
+    }
+
+    .branchcomplaintlist-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .branchcomplaintlist-hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .branchcomplaintlist-hero h1 {
+        font-size: 1.8rem;
+        gap: 6px;
+    }
+
+    .branchcomplaintlist-emoji {
+        font-size: 1.8rem;
+        margin-left: 0;
+    }
+
+    .branchcomplaintlist-view-btn {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .branchcomplaint-search {
+        justify-content: center;
+        gap: 8px;
+        flex-direction: column;
+    }
+}

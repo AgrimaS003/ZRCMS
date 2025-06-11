@@ -1,0 +1,524 @@
+.directorclaim-dashboard-bg {
+    min-height: 100vh;
+    /* background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%); */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* justify-content: space-around; */
+    position: relative;
+    top: 0;
+}
+
+.directorclaim-header {
+    padding: 32px 0 12px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.directorclaim-gradient-text {
+    background: linear-gradient(90deg, #250ed2 0%, #071151 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tag {
+    font-weight: 500;
+    color: #1a237e;
+}
+
+.directorclaim-breadcrumb {
+    color: #7b6fd6;
+    font-size: 1.05rem;
+    margin-top: 6px;
+}
+
+.directorclaim-breadcrumb .tag {
+    background: #e0eafc;
+    color: #7b6fd6;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 0.98rem;
+    margin-left: 4px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+
+    .directorclaim-header,
+    .directorclaim-stepper-card,
+    .directorclaim-collapse-list,
+    .directorclaim-photo-section {
+        max-width: 98vw;
+    }
+
+    .directorclaim-stepper-step {
+        min-width: 90px;
+    }
+
+    .directorclaim-stepper-label {
+        font-size: 0.98rem;
+    }
+
+    .directorclaim-stepper-date {
+        font-size: 0.9rem;
+    }
+
+    .directorclaim-accordion-list {
+        max-width: 98vw;
+    }
+
+    .inspection-checkbox-list {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 98vw;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .directorclaim-header,
+    .directorclaim-stepper-card,
+    .directorclaim-collapse-list,
+    .directorclaim-photo-section {
+        max-width: 100vw;
+        border-radius: 8px;
+        padding: 0 2vw;
+    }
+
+    .directorclaim-stepper-card {
+        padding: 18px 2vw 12px 2vw;
+    }
+
+    .directorclaim-stepper-step {
+        min-width: 70px;
+    }
+
+    .directorclaim-stepper-label {
+        font-size: 0.92rem;
+    }
+
+    .directorclaim-stepper-date {
+        font-size: 0.85rem;
+    }
+}
+
+/* Timeline container */
+.comm-timeline {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: relative;
+}
+
+/* Timeline row: 3 columns (user | dot/line | message) */
+.comm-timeline-row {
+    display: grid;
+    grid-template-columns: 220px 32px 1fr;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+}
+
+/* User column */
+.comm-timeline-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: right;
+    font-weight: 500;
+    color: #222;
+    font-size: 1.06rem;
+    padding-top: 8px;
+    padding-right: 8px;
+    word-break: break-word;
+}
+
+/* Dot/line column */
+.comm-timeline-dot-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    bottom: 0.6vw;
+    min-width: 32px;
+    width: 32px;
+}
+
+/* Timeline dot */
+.comm-timeline-dot {
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    border-radius: 50%;
+    border: 2.5px solid #fff;
+    box-shadow: 0 2px 8px #7b6fd61a;
+    z-index: 2;
+    margin-top: 10px;
+}
+
+/* Timeline line */
+.comm-timeline-line {
+    width: 3px;
+    height: 60px;
+    background: linear-gradient(180deg, #e0eafc 0%, #cfdef3 100%);
+    margin: 0 auto;
+    margin-bottom: -10px;
+    margin-top: 0;
+    z-index: 1;
+}
+
+/* Message column */
+.comm-timeline-msg {
+    display: flex;
+    align-items: flex-start;
+    min-width: 180px;
+}
+
+.comm-timeline-msg-box {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px #7b6fd61a;
+    padding: 18px 22px;
+    font-size: 1.08rem;
+    color: #071151;
+    min-width: 180px;
+    max-width: 100%;
+    word-break: break-word;
+    border-left: 4px solid #43e97b;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.comm-timeline-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background-color: #f0f0f0;
+    font-size: 0.8em;
+    margin-left: 8px;
+    color: #666;
+}
+
+.defective-photos-section {
+    min-width: 80vw;
+    margin: 0 auto 32px auto;
+    padding: 0 8px;
+    margin-bottom: 10vh;
+}
+
+.defective-photos-section h2 {
+    color: #071151;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.defective-photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+    gap: 30px;
+}
+
+.defective-photo-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px #7b6fd61a;
+    padding: 22px 30px 18px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 170px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+}
+
+.defective-photo-card:hover {
+    box-shadow: 0 8px 32px #6366f133;
+    transform: translateY(-3px) scale(1.01);
+}
+
+.defective-photo-info {
+    margin-bottom: 18px;
+}
+
+.defective-photo-title {
+    font-weight: 700;
+    color: #071151;
+    font-size: 1.08rem;
+    margin-bottom: 2px;
+    letter-spacing: 0.1px;
+}
+
+.defective-photo-status,
+.defective-photo-remarks {
+    font-size: 0.97rem;
+    color: #6366f1;
+    margin-bottom: 2px;
+}
+
+.defective-photo-status span,
+.defective-photo-remarks span {
+    color: #7b6fd6;
+    font-weight: 600;
+}
+
+.defective-photo-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 8px;
+}
+
+.defective-photo-icon {
+    background: #e0eafc;
+    color: #6366f1;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-right: 8px;
+    box-shadow: 0 2px 8px #7b6fd61a;
+    border: none;
+}
+
+.photo-action-btn {
+    border: none;
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.18s;
+    background: #f4f6fb;
+    color: #fff;
+}
+
+.photo-action-btn.green {
+    background: #43a047;
+}
+
+.photo-action-btn.green:hover {
+    background: #388e3c;
+    transform: scale(1.08);
+}
+
+.photo-action-btn.red {
+    background: #ff5252;
+}
+
+.photo-action-btn.red:hover {
+    background: #d32f2f;
+    transform: scale(1.08);
+}
+
+@media (max-width: 900px) {
+    .defective-photos-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .defective-photos-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .defective-photo-card {
+        padding: 14px 8px 12px 8px;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .comm-timeline-row {
+        grid-template-columns: 120px 24px 1fr;
+    }
+
+    .comm-timeline-user {
+        font-size: 0.98rem;
+        padding-right: 4px;
+    }
+
+    .comm-timeline-dot-col {
+        min-width: 24px;
+        width: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .comm-timeline-row {
+        grid-template-columns: 1fr 24px 1fr;
+        gap: 8px;
+    }
+
+    .comm-timeline-user {
+        text-align: right;
+        font-size: 0.95rem;
+        padding-right: 2px;
+        min-width: 0;
+        max-width: 100vw;
+        padding-top: 0;
+    }
+
+    .comm-timeline-msg-box {
+        font-size: 0.98rem;
+        padding: 12px 8px;
+    }
+}
+
+.display-none {
+    display: none;
+}
+
+/* Stepper card container */
+.directorclaim-stepper-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #7b6fd61a;
+    min-width: 80vw;
+    margin: 0 auto 24px auto;
+    padding: 50px 18px 24px 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Stepper wrapper */
+.directorclaim-stepper {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    flex-wrap: nowrap;
+    /* Default: no wrap */
+}
+
+/* Continuous line behind all dots */
+.directorclaim-stepper-line-bg {
+    position: absolute;
+    top: 1.25vw;
+    /* half of dot height approx */
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #080571;
+    z-index: 0;
+}
+
+/* Each step */
+.directorclaim-stepper-step {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Dot styles */
+.directorclaim-stepper-dot {
+    width: 2.5vw;
+    height: 2.5vw;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 2px 8px #7b6fd61a;
+    margin-bottom: 6px;
+    z-index: 2;
+    position: relative;
+    transition: background 0.5s;
+}
+
+/* Example colored dots for up to 6 steps */
+.step-dot-0,
+.step-dot-1,
+.step-dot-2,
+.step-dot-3,
+.step-dot-4,
+.step-dot-5 {
+    background: #466efd;
+}
+
+/* Step info text */
+.directorclaim-stepper-info {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.directorclaim-stepper-date {
+    font-size: 0.95rem;
+    color: #4c38e6;
+    font-weight: 500;
+}
+
+.directorclaim-stepper-label {
+    font-size: 1.08rem;
+    color: #17087a;
+    font-weight: 700;
+    margin-top: 2px;
+    letter-spacing: 0.2px;
+}
+
+/* Responsive styling */
+
+/* Tablets and below */
+@media (max-width: 900px) {
+    .directorclaim-stepper-step {
+        min-width: 90px;
+    }
+
+    .directorclaim-stepper-label {
+        font-size: 0.98rem;
+    }
+
+    .directorclaim-stepper-date {
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile: wrap steps in two rows of 3 */
+@media (max-width: 600px) {
+    .directorclaim-stepper {
+        flex-wrap: wrap;
+        /* wrap to multiple lines */
+        justify-content: center;
+        margin-bottom: 24px;
+    }
+
+    /* Each step 30% width for 3 per row */
+    .directorclaim-stepper-step {
+        flex: 0 0 30%;
+        min-width: auto;
+        margin-bottom: 30px;
+    }
+
+    /* Hide continuous line as dots are now in two rows */
+    .directorclaim-stepper-line-bg {
+        display: none;
+    }
+
+    /* Smaller dots on mobile */
+    .directorclaim-stepper-dot {
+        width: 18px;
+        height: 18px;
+        margin-bottom: 4px;
+    }
+
+    /* Smaller fonts */
+    .directorclaim-stepper-label {
+        font-size: 0.9rem;
+    }
+
+    .directorclaim-stepper-date {
+        font-size: 0.8rem;
+    }
+}
