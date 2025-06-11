@@ -1,0 +1,179 @@
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 30px 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.login-container img {
+  display: block;
+  margin: 0 auto 20px auto;
+  height: 80px;
+  object-fit: contain;
+}
+
+#login-h3 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+/* Label styling */
+#login-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Input styling (fixed selector) */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+input:focus {
+  border-color: #0066cc;
+  outline: none;
+}
+
+/* Show password styling */
+.ShowingPassword {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  color: #333;
+}
+
+.ShowingPassword input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  accent-color: #0066cc;
+  cursor: pointer;
+}
+
+.msg {
+  padding: 10px 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  word-wrap: break-word;
+  box-sizing: border-box;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Login button */
+.LogIn button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #0066cc;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.LogIn button:hover {
+  background-color: #005bb5;
+}
+
+/* Forgot password link */
+.forgotPassword {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.forgotPassword a {
+  color: #0066cc;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Tablet view */
+@media (max-width: 768px) {
+  .login-container {
+    margin: 40px 20px;
+    padding: 25px 20px;
+  }
+
+  .login-container img {
+    width: 60%;
+  }
+
+  #login-h3 {
+    font-size: 22px;
+  }
+
+  .LogIn button {
+    font-size: 15px;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 480px) {
+  .login-container {
+    margin: 30px 10px;
+    padding: 30px 15px;
+  }
+
+  #login-h3 {
+    font-size: 18px;
+  }
+
+  .LogIn button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .forgotPassword a {
+    font-size: 13px;
+  }
+
+  .msg {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
+  .ShowingPassword {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .login-container img {
+    width: 70%;
+    height: auto;
+  }
+}
