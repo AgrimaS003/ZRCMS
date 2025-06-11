@@ -1067,14 +1067,56 @@ def delete_photo(usertype):
         return jsonify({"error_msg":str(e)}), 500
     
 ######
+# @app.route('/<usertype>/claim_timeline', methods=['POST'])
+# def claim_timeline(usertype):
+#     try:
+#         data=request.get_json()
+#         claim_id = data.get('claim_id')
+
+#         db = get_connection()
+#         cursor = db.cursor(dictionary=True)
+#         query = """
+#             SELECT 
+#                 ms.status_name AS description,
+#                 tc.ns_last_update_on AS timestamp
+#             FROM tr_claims tc
+#             JOIN m_status ms ON tc.s_current_status = ms.status_code
+#             WHERE tc.s_claim_id = %s
+#             ORDER BY tc.ns_last_update_on ASC
+#         """
+#         cursor.execute(query, (claim_id,))
+#         result = cursor.fetchall()
+#         return jsonify({"success": True, "events": result}), 200
+
+#     except Exception as e:
+#         print(str(e))
+#         return jsonify({"error_msg":str(e)}), 500
+
+
 @app.route('/<usertype>/claim_timeline', methods=['POST'])
 def claim_timeline(usertype):
     try:
-        data=request.get_json()
-        claim_id = data.get('claim_id')
+        data = request.get_json()
+        input_id = data.get('claim_id')  # May be claim_id or report_no
 
         db = get_connection()
         cursor = db.cursor(dictionary=True)
+
+        # Define staff roles
+        staff_roles = ['manager', 'supervisor', 'inspection', 'quality_check', 'sales_head', 'director', 'account']
+        usertype_lower = usertype.lower()
+
+        # If staff, translate report_no to claim_id
+        if usertype_lower in staff_roles:
+            cursor.execute("SELECT claim_id FROM z_complaints_1 WHERE report_no = %s", (input_id,))
+            row = cursor.fetchone()
+            if not row:
+                return jsonify({"success": False, "message": "Invalid report_no for staff"}), 404
+            claim_id = row['claim_id']
+        else:
+            claim_id = input_id
+
+        # Fetch timeline events using claim_id
         query = """
             SELECT 
                 ms.status_name AS description,
@@ -1086,12 +1128,14 @@ def claim_timeline(usertype):
         """
         cursor.execute(query, (claim_id,))
         result = cursor.fetchall()
+
         return jsonify({"success": True, "events": result}), 200
 
     except Exception as e:
         print(str(e))
-        return jsonify({"error_msg":str(e)}), 500
-    
+        return jsonify({"success": False, "error_msg": str(e)}), 500
+
+
 ######
 @app.route('/<usertype>/all_complaint_list', methods=['POST'])
 def all_complaint_list(usertype):
