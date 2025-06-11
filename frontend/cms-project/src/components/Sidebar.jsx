@@ -31,32 +31,33 @@ const Sidebar = () => {
         </li>
         )}
         
-    <li className="nav-item">
+        {isStaff ? (
+  // If user is staff → show single redirect item without dropdown
+  <li>
+    <a className="nav-link" onClick={() => navigate(`/${usertype}/all_complaint_list`)}>
+      <i className="bi bi-list-check"></i>
+      <span id="color-id">Complaint List</span>
+    </a>
+  </li>
+) : (
+  // For other users → show dropdown with submenu
+  <li className="nav-item">
     <a className="nav-link" onClick={() => handleSubMenuToggle('complain-list')}>
       <i className="bi bi-list-check"></i>
-      <span id='color-id'>Complaint List</span>
-      <i className="bi bi-chevron-down ms-auto" style={{'marginLeft':'8px'}}></i>
+      <span id="color-id">Complaint List</span>
+      <i className="bi bi-chevron-down ms-auto" style={{ marginLeft: '8px' }}></i>
     </a>
 
     {activeSubMenu === 'complain-list' && (
       <ul className="nav-content">
-        {isStaff ? (
-                <li>
-                  <a onClick={() => navigate(`/${usertype}/all_complaint_list`)}>
-                    <i className="bi bi-circle"></i>
-                    <span id="color-id">All Complaints</span>
-                  </a>
-                </li>
-              ) : (
-                <>
         <li><a onClick={() => navigate(`/${usertype}/complaints/active-claim`)}><i className="bi bi-circle"></i><span id='color-id'>Active Claim</span></a></li>
-        <li ><a onClick={() => navigate(`/${usertype}/complaints/rejected-claims`)}><i className="bi bi-circle"></i><span id='color-id'>Rejected Claim</span></a></li>
+        <li><a onClick={() => navigate(`/${usertype}/complaints/rejected-claims`)}><i className="bi bi-circle"></i><span id='color-id'>Rejected Claim</span></a></li>
         <li><a onClick={() => navigate(`/${usertype}/complaints/claim-passed`)}><i className="bi bi-circle"></i><span id='color-id'>Claim Passed</span></a></li>
-      </>
-        )}
       </ul>
     )}
   </li>
+)}
+
 
   {isStaff && (
     <li className="nav-item" onClick={() => navigate(`/${usertype}/reports`)}>
