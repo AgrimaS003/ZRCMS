@@ -1,0 +1,309 @@
+.complaint-form{
+    max-width: 900px;
+}
+.menu-icon {
+    height: 30px;
+    width: 30px;
+}
+
+.logo-container {
+    margin-right: 55rem;
+}
+
+.logo {
+    width: 200px;
+    height: 100px;
+}
+.one-two-in-line{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.header-nav {
+    margin-left: 2rem;
+}
+
+.menu-icon-wrapper {
+    cursor: pointer; 
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+.table{
+    border: 1px solid black;
+}
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    text-align: left;
+    /* width: 100%; */
+}
+.form-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+.form-group input,
+.form-group select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0.5rem;
+}
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+}
+h4{
+    align-items: flex-start;
+}
+.checkbox-grid label {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+    gap: 0.4rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.checkbox-grid input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.attachment-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.attachment-group {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.attachment-group label {
+    font-weight: 500;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.attachment-group input[type="file"] {
+    margin-bottom: 0.5rem;
+}
+
+.attachment-img {
+    height: 100px;
+    margin-top: 0.25rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.sales-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 14px;
+}
+
+.sales-table th,
+.sales-table td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.sales-table th {
+    background-color: #f4f4f4;
+    font-weight: 600;
+}
+
+.sales-table input {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.form-card {
+    background-color: #ffffff;
+    padding: 2.5rem 2rem;
+    margin: 2rem auto;
+    border-radius: 10px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    max-width: 1000px;
+    width: 95%;
+
+}
+#main-id{
+    padding-top: 105px;
+    font-family: 'Open Sans', sans-serif; 
+}
+.registerClass {
+    padding-left: 45px;
+}
+
+.registerClass h2 {
+  color: #012970;
+  margin-bottom: 0.25rem;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.registerClass h4 {
+  color: #6c757d;
+  font-size: 15px;
+  margin: 0;
+  font-weight: 400;
+}
+#complaint-submit-button{
+    padding: 0.5rem 1.5rem;
+    margin-top: 20px;
+    border-radius: 20px;
+    border: none;
+    background: #e3e7ed;
+    color: #2d3a4a;
+    font-weight: 600;
+    cursor: pointer;
+}
+.message {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+input {
+    background-color: none;
+}
+
+@media (max-width: 1024px) {
+  .form-card {
+    width: 95%;
+    padding: 2rem 1rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .attachment-row {
+    flex-direction: column;
+  }
+
+  .sales-table table {
+    font-size: 13px;
+  }
+
+  .registerClass {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  #main-id {
+    padding-top: 80px;
+  }
+
+  .form-card {
+    padding: 1.5rem 1rem;
+    width: 95%;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 0.95rem;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .attachment-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .attachment-group {
+    width: 100%;
+  }
+
+  .attachment-img {
+    height: auto;
+    max-width: 100%;
+  }
+
+  .sales-table table {
+    font-size: 12px;
+  }
+
+  .sales-table th,
+  .sales-table td {
+    padding: 6px;
+  }
+
+  .registerClass h2 {
+    font-size: 22px;
+  }
+
+  .registerClass h4 {
+    font-size: 14px;
+  }
+
+  .footer {
+    font-size: 14px;
+  }
+
+  #complaint-submit-button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,165 @@
+#main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background-color: white;
+  z-index: 1001;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+#left-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Menu toggle button */
+#menu-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px; /* better hit area */
+}
+
+/* Menu icon image */
+.menu-icon {
+  height: 28px;
+  width: 28px;
+}
+
+/* Logo section */
+#logo-section {
+  margin-left: 0;
+}
+
+/* Company logo image */
+#company-logo {
+  height: 80px;
+  width: auto;
+}
+
+/* User dropdown container */
+#user-dropdown {
+  position: relative;
+  padding-right: 20px;
+  white-space: nowrap; /* prevent breaking */
+}
+
+/* Button that toggles user dropdown */
+#user-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* User name text */
+#user-name {
+  font-weight: 600;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Dropdown menu */
+#dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  width: 225px;
+  padding: 12px 0;
+  z-index: 1002;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Dropdown item styles */
+.dropdown-item {
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #333;
+  font-size: 15px;
+  transition: background 0.2s ease;
+}
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* User info area inside dropdown */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px 20px;
+  font-size: 14px;
+}
+
+.user-info strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.user-info small {
+  font-size: 12px;
+  color: #777;
+}
+
+/* Divider inside dropdown */
+.dropdown-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 8px 0;
+}
+
+/* Icons color inside dropdown */
+.dropdown-item svg {
+  color: #555;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  #main-header {
+    height: 80px;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  #dropdown-menu {
+    width: 180px;
+  }
+  .dropdown-item {
+    font-size: 13px;
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  #left-section {
+    gap: 10px;
+  }
+  #company-logo {
+    height: 50px;
+  }
+}
