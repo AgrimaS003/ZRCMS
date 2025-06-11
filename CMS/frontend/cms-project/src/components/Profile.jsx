@@ -8,7 +8,7 @@ const Profile = () => {
     const [profile, setProfile] = useState({
         name: 'User Name',
         email: 'email@gmail.com',
-        company: 'BVM',
+        company: 'dummy demo',
         mobile: 1221221022,
         address: 'abcd'
     });
