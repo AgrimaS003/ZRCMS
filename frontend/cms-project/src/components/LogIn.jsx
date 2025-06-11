@@ -79,7 +79,7 @@ function LogIn(){
         </div>
         <div id='show_password' className='ShowingPassword'>
           <input type='checkbox' id='showPassword' onChange={showPassword}/> 
-          <label id='show_Password'>Show Password</label>
+          <label id='show_Password' style={{marginBottom:'0'}}>Show Password</label>
         </div>
         <div className={`msg ${msg === 'Login Successful' ? 'success' : msg === 'Login Failed' ? 'error' : ''}`}>
             {msg}

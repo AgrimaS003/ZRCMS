@@ -780,6 +780,22 @@ def get_claim_data(usertype):
             complaint_query = "SELECT * FROM z_complaints_1 WHERE claim_id = %s"
             cursor.execute(complaint_query, (claim_id,))
             complaint_info = cursor.fetchone()
+            if complaint_info:
+                dealer_id = complaint_info.get('dealer_id')
+                cursor.execute("SELECT s_dealer_name, s_dealer_company FROM m_dealer WHERE s_dealer_id = %s", (dealer_id,))
+                dealer = cursor.fetchone()
+
+                if dealer:
+                    complaint_info['dealer_name'] = dealer['s_dealer_name']
+                    complaint_info['dealer_company'] = dealer['s_dealer_company']
+                else:
+                    # If not found in dealer, try branch table
+                    cursor.execute("SELECT s_branch_name, s_branch_company FROM m_branch WHERE s_branch_id = %s", (dealer_id,))
+                    branch = cursor.fetchone()
+                    if branch:
+                        complaint_info['dealer_name'] = branch['s_branch_name']
+                        complaint_info['dealer_company'] = branch['s_branch_company']
+
 
         # Case 2: DEALER
         elif usertype_lower == 'dealer':
