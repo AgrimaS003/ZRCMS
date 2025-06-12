@@ -1102,11 +1102,11 @@ def claim_timeline(usertype):
         db = get_connection()
         cursor = db.cursor(dictionary=True)
 
-        # Define staff roles
+        # Staff roles
         staff_roles = ['manager', 'supervisor', 'inspection', 'quality_check', 'sales_head', 'director', 'account']
         usertype_lower = usertype.lower()
 
-        # If staff, translate report_no to claim_id
+        # Resolve claim_id if staff
         if usertype_lower in staff_roles:
             cursor.execute("SELECT claim_id FROM z_complaints_1 WHERE report_no = %s", (input_id,))
             row = cursor.fetchone()
@@ -1116,7 +1116,7 @@ def claim_timeline(usertype):
         else:
             claim_id = input_id
 
-        # Fetch timeline events using claim_id
+        # Fetch all rows for this claim_id to build the timeline
         query = """
             SELECT 
                 ms.status_name AS description,
@@ -1127,14 +1127,13 @@ def claim_timeline(usertype):
             ORDER BY tc.ns_last_update_on ASC
         """
         cursor.execute(query, (claim_id,))
-        result = cursor.fetchall()
+        timeline_entries = cursor.fetchall()
 
-        return jsonify({"success": True, "events": result}), 200
+        return jsonify({"success": True, "events": timeline_entries}), 200
 
     except Exception as e:
-        print(str(e))
+        print("Error in claim_timeline:", str(e))
         return jsonify({"success": False, "error_msg": str(e)}), 500
-
 
 ######
 @app.route('/<usertype>/all_complaint_list', methods=['POST'])
