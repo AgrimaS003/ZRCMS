@@ -80,6 +80,7 @@ function DealerComplaintList() {
       .then(data => setDealerComplaintList(data))
       .catch(err => console.error('Error fetching dealer complaint list:', err));
   }, []);
+  // console.log(dealerComplaintList)
 
   // Filtering (search and year)
   const filteredData = dealerComplaintList.filter(row => {
@@ -103,7 +104,6 @@ function DealerComplaintList() {
   function gotoclaimview(claim_id) {
     navigate('/DealerComplaintList/ManagerClaimView', { state: { claim_id } });
   }
-
   return (
     <div className="dealercomplaintlist-dashboard-bg dealercomplaintlist-layout">
       <Sidebar />

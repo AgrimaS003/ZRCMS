@@ -14,6 +14,28 @@ app.config['JWT_SECRET_KEY'] = 'INTERNSHIPZRCMS'  # Use a strong secret key in p
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=30)
 
 jwt = JWTManager(app)
+STATUS_MAP = {
+                        0: "Initiated",
+                        1: "Under Review",
+                        2: "Assign To Manager",
+                        3: "Rejected By Manager",
+                        4: "Assign To Supervision",
+                        5: "Rejected By Supervision",
+                        6: "Assign To Field Inspector",
+                        7: "Rejected By Field Inspector",
+                        8: "Assign To Quality Check",
+                        9: "Rejected By Quality Check",
+                        10: "Assign To Sales Head",
+                        11: "Rejected By Sales Head",
+                        12: "Assign To Director",
+                        13: "Rejected By Director",
+                        14: "Assign To Account",
+                        15: "Rejected By Account",
+                        16: "Pending",
+                        17: "Claim Pass",
+                        18: "Generated Voucher"
+                        };
+            
 
 CORS(app, origins=["http://192.168.1.29:5173"], supports_credentials=True, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @app.route('/login', methods=['POST'])
@@ -657,6 +679,7 @@ def get_dealer_complaint_list():
                 FROM dummycms.z_complaints_1 as zc
                 JOIN dummycms.m_dealer as md ON zc.dealer_id = md.s_dealer_id
                 JOIN dummycms.tr_claims as tc ON zc.claim_id = tc.s_claim_id;
+
     """
     
     cursor.execute(query)
@@ -683,7 +706,7 @@ def get_assigned_complaints():
                 FROM dummycms.z_complaints_1 as zc
                 JOIN dummycms.m_dealer as md ON zc.dealer_id = md.s_dealer_id
                 JOIN dummycms.tr_claims as tc ON zc.claim_id = tc.s_claim_id
-                WHERE md.s_dealer_type = 2;
+                WHERE md.s_dealer_type = 2 AND tc.s_current_status = 2;
             """
     cursor.execute(query)
     assignedcomplaints = cursor.fetchall()
@@ -721,17 +744,17 @@ def get_branch_complaint_list():
     db = get_connection()
     cursor = db.cursor(dictionary=True)
     query = """
-            # SELECT
-            #     zc.report_no,
-            #     zc.complaint_added_datetime,
-            #     mb.s_branch_name,
-            #     mb.s_branch_mob,
-            #     tc.s_current_status,
-            #     mb.s_branch_email,
-            #     zc.claim_id
-            # FROM dummycms.z_complaints_1 as zc
-            # JOIN dummycms.m_branch as mb ON zc.branch_id = mb.s_branch_id
-            # JOIN dummycms.tr_claims as tc ON zc.claim_id = tc.s_claim_id;
+            SELECT
+                zc.report_no,
+                zc.complaint_added_datetime,
+                mb.s_branch_name,
+                mb.s_branch_mob,
+                tc.s_current_status,
+                mb.s_branch_email,
+                zc.claim_id
+            FROM dummycms.z_complaints_1 as zc
+            JOIN dummycms.m_branch as mb ON zc.dealer_id = mb.s_branch_id
+            JOIN dummycms.tr_claims as tc ON zc.claim_id = tc.s_claim_id;
     """
     cursor.execute(query)   
     complaints = cursor.fetchall()
@@ -824,6 +847,97 @@ def get_manager_claim_view():
         print("Error in /DealerComplaintList/ManagerClaimView:", e)
         return jsonify({"error": str(e)}), 500
     
+@app.route('/statussetbymanager',methods=['GET'])
+# def status_set_by_manager():
+#         claim_id = request.args.get('claimid')
+#         status = request.args.get('status')
+#         db = get_connection()
+#         cursor = db.cursor()
+#         query = """
+#                 UPDATE dummycms.tr_claims
+#                 SET s_current_status = %s WHERE s_claim_id = %s
+#                 """
+#         cursor.execute(query,(status,claim_id))
+#         query = """
+#                 UPDATE dummycms.tr_claimstatus
+#                 SET ns_claimstatus = %s WHERE s_claim_id = %s
+#                 """
+#         cursor.execute(query,(status,claim_id))
+#         db.commit()
+#         cursor.close()
+#         db.close()
+#         return jsonify({"message": "Status updated successfully"}), 200
+def status_set_by_manager():
+    db = None  
+    cursor = None 
+    try:
+        claim_id = request.args.get('claimid')
+        status = request.args.get('status')
+        s_in_staffid = request.args.get('s_in_staffid')
+        s_dealer_id = request.args.get('s_dealer_id')
+        for key, value in STATUS_MAP.items():
+            if key == int(status):  # status is usually a string from request.args
+                remarks = value
+                break
+        
+
+        if not claim_id or not status:
+            return jsonify({"error": "Missing claimid or status"}), 400
+
+        db = get_connection()
+        cursor = db.cursor()
+
+        # Update current status in tr_claims
+        update_claim_query = """
+            UPDATE dummycms.tr_claims
+            SET s_current_status = %s
+            WHERE s_claim_id = %s
+        """
+        cursor.execute(update_claim_query, (status, claim_id))
+        print("tr_claims updated, rows affected:", cursor.rowcount)
+
+        # Check if tr_claimstatus row exists for the claim_id
+        cursor.execute("SELECT 1 FROM dummycms.tr_claimstatus WHERE s_claim_id = %s", (claim_id,))
+        exists = cursor.fetchone()
+
+        if exists:
+            # Update existing row
+            update_status_query = """
+                UPDATE dummycms.tr_claimstatus
+                SET ns_claimstatus = %s,ns_remarks = %s
+                WHERE s_claim_id = %s
+            """
+            cursor.execute(update_status_query, (status,remarks ,claim_id))
+            print("tr_claimstatus updated, rows affected:", cursor.rowcount)
+        else:
+            # Insert new row with minimal required fields
+            insert_status_query = """
+                INSERT INTO dummycms.tr_claimstatus
+                (s_claim_id, ns_claimstatus, s_updated_on, s_in_staffid, s_dealer_id, ns_update_type, ns_remarks)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            # Replace these default values as needed
+            
+            update_type = 3
+            
+            cursor.execute(insert_status_query, (
+                claim_id, status, current_time, s_in_staffid, s_dealer_id, update_type, remarks
+            ))
+            print("tr_claimstatus inserted, rows affected:", cursor.rowcount)
+
+        db.commit()
+
+        return jsonify({"message": "Status updated successfully"}), 200
+
+    except Exception as e:
+        if db:
+            db.rollback()
+            cursor.close()
+            db.close()
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/communicationsection', methods=['GET'])
 def communication_section():
     # try:
@@ -1565,6 +1679,21 @@ def get_product():
     ]
 
     return jsonify(product_data)
+
+@app.route('/rejectclaimbymanager',methods=['GET'])
+def rejectclaimbymanager():
+    claim_id = request.args.get('claimid')
+    db = get_connection()
+    cursor = db.cursor()
+    query = """
+            UPDATE dummycms.tr_claims
+            SET s_current_status = 3 WHERE s_claim_id = %s
+            """
+    cursor.execute(query, (claim_id,))
+    db.commit()
+    cursor.close()
+    db.close()
+    return jsonify({'message': 'Claim Rejected Successfully'})
 
 
 if __name__ == '__main__':

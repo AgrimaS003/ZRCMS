@@ -24,7 +24,7 @@ const claimDetails = {
     customerMobile: '+91 (702) 449-5345'
 };
 
-function renderSectionContent(sectionKey, claimViewData , communicationData , performanceData) {
+function renderSectionContent(sectionKey, claimViewData, communicationData, performanceData) {
     if (sectionKey === 'ProductDetails') {
         return (
             <div className="managerclaim-claiminfo-grid">
@@ -297,93 +297,93 @@ function renderSectionContent(sectionKey, claimViewData , communicationData , pe
         );
     }
     if (sectionKey === 'QCForm') {
-    return (
-        <div className="managerclaim-claiminfo-grid">
-            <div>
-                <label>Nature of Complaint</label>
-                <input value={claimViewData?.Nature_of_Complaint || ""} readOnly />
+        return (
+            <div className="managerclaim-claiminfo-grid">
+                <div>
+                    <label>Nature of Complaint</label>
+                    <input value={claimViewData?.Nature_of_Complaint || ""} readOnly />
+                </div>
+                <div>
+                    <label>Product</label>
+                    <input value={claimViewData?.Product || ""} readOnly />
+                </div>
+                <div>
+                    <label>Application</label>
+                    <input value={claimViewData?.Application || ""} readOnly />
+                </div>
+                <div>
+                    <label>Code</label>
+                    <input value={claimViewData?.Code || ""} readOnly />
+                </div>
+                <div>
+                    <label>Resin/Pitch Bonded</label>
+                    <input value={claimViewData?.Resin_Pitch_Bonded || ""} readOnly />
+                </div>
+                <div>
+                    <label>Recipe</label>
+                    <input value={claimViewData?.Recepie || ""} readOnly />
+                </div>
+                <div>
+                    <label>Styling Machine</label>
+                    <input value={claimViewData?.Styling_Machine || ""} readOnly />
+                </div>
+                <div>
+                    <label>Application (Metal/Fuel) of Product Produced For</label>
+                    <input value={claimViewData?.Application_of_Product_Produced_For || ""} readOnly />
+                </div>
+                <div>
+                    <label>Date of Moulding</label>
+                    <input value={claimViewData?.Date_of_Moulding ? new Date(claimViewData.Date_of_Moulding).toLocaleDateString() : ""} readOnly />
+                </div>
+                <div>
+                    <label>Green Stage</label>
+                    <input value={claimViewData?.Green_Stage || ""} readOnly />
+                </div>
+                <div>
+                    <label>Green Stage Date</label>
+                    <input value={claimViewData?.Green_Stage_date ? new Date(claimViewData.Green_Stage_date).toLocaleDateString() : ""} readOnly />
+                </div>
+                <div>
+                    <label>1st Fired Stage / Curing Stage</label>
+                    <input value={claimViewData?.Curing_Stage || ""} readOnly />
+                </div>
+                <div>
+                    <label>Curing Stage Date</label>
+                    <input value={claimViewData?.Curing_Stage_date ? new Date(claimViewData.Curing_Stage_date).toLocaleDateString() : ""} readOnly />
+                </div>
+                <div>
+                    <label>Glaze Fired Stage (HT Firing)</label>
+                    <input value={claimViewData?.Glaze_Fired_Stage || ""} readOnly />
+                </div>
+                <div>
+                    <label>Glaze Fired Stage Date</label>
+                    <input value={claimViewData?.Glaze_Fired_Stage_date ? new Date(claimViewData.Glaze_Fired_Stage_date).toLocaleDateString() : ""} readOnly />
+                </div>
+                <div>
+                    <label>El fire stage (in case of el firing)</label>
+                    <input value={claimViewData?.el_fire_stage || ""} readOnly />
+                </div>
+                <div>
+                    <label>El fire stage Date</label>
+                    <input value={claimViewData?.el_fire_stage_date ? new Date(claimViewData.el_fire_stage_date).toLocaleDateString() : ""} readOnly />
+                </div>
+                <div>
+                    <label>Overall Remarks on Produced Product</label>
+                    <input value={claimViewData?.Over_All_Remarks_on_Produced_Product || ""} readOnly />
+                </div>
+                <div>
+                    <label>Remarks on Complaint</label>
+                    <input value={claimViewData?.Remarks_on_Complaint || ""} readOnly />
+                </div>
+                <div>
+                    <label>Remedial Action to be taken</label>
+                    <input value={claimViewData?.Remdial_Action_to_be_taken || ""} readOnly />
+                </div>
             </div>
-            <div>
-                <label>Product</label>
-                <input value={claimViewData?.Product || ""} readOnly />
-            </div>
-            <div>
-                <label>Application</label>
-                <input value={claimViewData?.Application || ""} readOnly />
-            </div>
-            <div>
-                <label>Code</label>
-                <input value={claimViewData?.Code || ""} readOnly />
-            </div>
-            <div>
-                <label>Resin/Pitch Bonded</label>
-                <input value={claimViewData?.Resin_Pitch_Bonded || ""} readOnly />
-            </div>
-            <div>
-                <label>Recipe</label>
-                <input value={claimViewData?.Recepie || ""} readOnly />
-            </div>
-            <div>
-                <label>Styling Machine</label>
-                <input value={claimViewData?.Styling_Machine || ""} readOnly />
-            </div>
-            <div>
-                <label>Application (Metal/Fuel) of Product Produced For</label>
-                <input value={claimViewData?.Application_of_Product_Produced_For || ""} readOnly />
-            </div>
-            <div>
-                <label>Date of Moulding</label>
-                <input value={claimViewData?.Date_of_Moulding ? new Date(claimViewData.Date_of_Moulding).toLocaleDateString() : ""} readOnly />
-            </div>
-            <div>
-                <label>Green Stage</label>
-                <input value={claimViewData?.Green_Stage || ""} readOnly />
-            </div>
-            <div>
-                <label>Green Stage Date</label>
-                <input value={claimViewData?.Green_Stage_date ? new Date(claimViewData.Green_Stage_date).toLocaleDateString() : ""} readOnly />
-            </div>
-            <div>
-                <label>1st Fired Stage / Curing Stage</label>
-                <input value={claimViewData?.Curing_Stage || ""} readOnly />
-            </div>
-            <div>
-                <label>Curing Stage Date</label>
-                <input value={claimViewData?.Curing_Stage_date ? new Date(claimViewData.Curing_Stage_date).toLocaleDateString() : ""} readOnly />
-            </div>
-            <div>
-                <label>Glaze Fired Stage (HT Firing)</label>
-                <input value={claimViewData?.Glaze_Fired_Stage || ""} readOnly />
-            </div>
-            <div>
-                <label>Glaze Fired Stage Date</label>
-                <input value={claimViewData?.Glaze_Fired_Stage_date ? new Date(claimViewData.Glaze_Fired_Stage_date).toLocaleDateString() : ""} readOnly />
-            </div>
-            <div>
-                <label>El fire stage (in case of el firing)</label>
-                <input value={claimViewData?.el_fire_stage || ""} readOnly />
-            </div>
-            <div>
-                <label>El fire stage Date</label>
-                <input value={claimViewData?.el_fire_stage_date ? new Date(claimViewData.el_fire_stage_date).toLocaleDateString() : ""} readOnly />
-            </div>
-            <div>
-                <label>Overall Remarks on Produced Product</label>
-                <input value={claimViewData?.Over_All_Remarks_on_Produced_Product || ""} readOnly />
-            </div>
-            <div>
-                <label>Remarks on Complaint</label>
-                <input value={claimViewData?.Remarks_on_Complaint || ""} readOnly />
-            </div>
-            <div>
-                <label>Remedial Action to be taken</label>
-                <input value={claimViewData?.Remdial_Action_to_be_taken || ""} readOnly />
-            </div>
-        </div>
-    );
-}
+        );
+    }
     if (sectionKey === 'CommunicationDetails') {
-        return <CommunicationDetailsSection claimViewData={claimViewData} communicationData={communicationData}/>;
+        return <CommunicationDetailsSection claimViewData={claimViewData} communicationData={communicationData} />;
     }
     // Default: Claim Details (or others)
     return (
@@ -424,23 +424,24 @@ function renderSectionContent(sectionKey, claimViewData , communicationData , pe
     );
 }
 
-function CommunicationDetailsSection({ claimViewData , communicationData }) {
+function CommunicationDetailsSection({ claimViewData, communicationData }) {
     const [data, setData] = useState([]);
     const [selectedStatus, setSelectedStatus] = useState('');
     const [remarks, setRemarks] = useState('');
 
-    // console.log('Communication Data from accordion:', communicationData);
+    // console.log('Communication Data from accordion:', communicationData,claimViewData?.s_dealer_id,claimViewData?.s_in_staffid);
+
     const Department = [
-        {key:"1", value:"Admin"},
-        {key:"2", value:"Dealer"},
-        {key:"3", value:"Manager"},
-        {key:"4", value:"Supervisor"},
-        {key:"5", value:"Inspection"},
-        {key:"6", value:"Quality_Check"},
-        {key:"7", value:"Sales_Head"},
-        {key:"8", value:"Director"},
-        {key:"9", value:"Account"},
-        {key:"10", value:"Branch"}
+        { key: "1", value: "Admin" },
+        { key: "2", value: "Dealer" },
+        { key: "3", value: "Manager" },
+        { key: "4", value: "Supervisor" },
+        { key: "5", value: "Inspection" },
+        { key: "6", value: "Quality_Check" },
+        { key: "7", value: "Sales_Head" },
+        { key: "8", value: "Director" },
+        { key: "9", value: "Account" },
+        { key: "10", value: "Branch" }
     ];
 
     const claimStatus = [
@@ -466,23 +467,35 @@ function CommunicationDetailsSection({ claimViewData , communicationData }) {
     ];
 
     const timeline = Array.isArray(communicationData)
-    ? communicationData.map(item => ({
-        user: `${item.ns_claimstatus === "0" ? item.s_dealer_name  : item.s_staff_name|| 'Unknown'} - ${item.ns_update_type || 'NA'}`,
-        message: item.ns_remarks || ''
-    }))
-    : [];
+        ? communicationData.map(item => ({
+            user: `${item.ns_claimstatus === "0" ? item.s_dealer_name : item.s_staff_name || 'Unknown'} - ${item.ns_update_type || 'NA'}`,
+            message: item.ns_remarks || ''
+        }))
+        : [];
 
     const handleStatusUpdate = () => {
-        // TODO: Implement status update logic
         console.log('Status:', selectedStatus);
         console.log('Remarks:', remarks);
+        const staffId = claimViewData?.s_in_staffid ?? 0;
+
+        fetch(`http://192.168.1.29:5015/statussetbymanager?claimid=${claimViewData?.claim_id}&status=${selectedStatus}&s_dealer_id=${claimViewData?.s_dealer_id}&s_in_staffid=${staffId}`)
+
+            .then(res => res.json())
+            .then(data => {
+                console.log('Status update response:', data);
+                // Optionally show a success message or update UI
+            })
+            .catch(err => {
+                console.error('Error updating status:', err);
+            });
     };
+
 
     return (
         <div className="communication-details-section">
             <div className="communication-actions-row">
                 <input type="file" className="comm-file-input" />
-                <select 
+                <select
                     className="comm-select"
                     value={selectedStatus}
                     onChange={e => setSelectedStatus(e.target.value)}
@@ -494,7 +507,7 @@ function CommunicationDetailsSection({ claimViewData , communicationData }) {
                         </option>
                     ))}
                 </select>
-                <button 
+                <button
                     className="comm-assign-btn"
                     onClick={handleStatusUpdate}
                 >
@@ -503,9 +516,9 @@ function CommunicationDetailsSection({ claimViewData , communicationData }) {
             </div>
             <div className="comm-remarks-row">
                 <label>Remarks</label>
-                <textarea 
-                    className="comm-remarks-textarea" 
-                    rows={3} 
+                <textarea
+                    className="comm-remarks-textarea"
+                    rows={3}
                     placeholder="Enter remarks..."
                     value={remarks}
                     onChange={e => setRemarks(e.target.value)}
@@ -520,7 +533,7 @@ function CommunicationDetailsSection({ claimViewData , communicationData }) {
                             </div>
                             <div className="comm-timeline-dot-col">
                                 <span className="comm-timeline-dot" />
-                                {idx !== timeline.length  && <span className="comm-timeline-line" />}
+                                {idx !== timeline.length && <span className="comm-timeline-line" />}
                             </div>
                             <div className="comm-timeline-msg">
                                 <div className="comm-timeline-msg-box">{item.message}</div>
@@ -533,36 +546,36 @@ function CommunicationDetailsSection({ claimViewData , communicationData }) {
     );
 }
 
-function ManagerClaimAccordion({ claimViewData , communicationData , performanceData }) {
+function ManagerClaimAccordion({ claimViewData, communicationData, performanceData }) {
     // console.log('communicationData from functtion:', communicationData);
     const [openSection, setOpenSection] = useState('ClaimDetails');
     // console.log('ManagerClaimAccordion Data:', claimViewData?.report_no);
     const navigate = useNavigate();
-        useEffect(() => {
-            const token = localStorage.getItem("token");
-    
-            fetch("http://192.168.1.29:5015/protected", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        fetch("http://192.168.1.29:5015/protected", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Unauthorized");
+                return res.json();
             })
-                .then(res => {
-                    if (!res.ok) throw new Error("Unauthorized");
-                    return res.json();
-                })
-                .then(data => {
-                    console.log("Protected data:", data);
-                    // setUserData(data); // Or update state
-                })
-                .catch(err => {
-                    console.error("Access denied or token invalid", err);
-                    navigate('/Login')
-                    // Optionally redirect to login
-                });
-        }, []);
+            .then(data => {
+                // console.log("Protected data:", data);
+                // setUserData(data); // Or update state
+            })
+            .catch(err => {
+                console.error("Access denied or token invalid", err);
+                navigate('/Login')
+                // Optionally redirect to login
+            });
+    }, []);
 
     if (!claimViewData) return <div>Loading...</div>;
-    if(!communicationData) return <div>Loading Communication Data...</div>;
+    if (!communicationData) return <div>Loading Communication Data...</div>;
 
     return (
         <div className="managerclaim-accordion-list">
@@ -593,7 +606,7 @@ function ManagerClaimAccordion({ claimViewData , communicationData , performance
                             transition: 'all 0.35s cubic-bezier(.4,0,.2,1)'
                         }}
                     >
-                        {openSection === section.key && renderSectionContent(section.key, claimViewData , communicationData ,performanceData)}
+                        {openSection === section.key && renderSectionContent(section.key, claimViewData, communicationData, performanceData)}
                     </div>
                 </div>
             ))}

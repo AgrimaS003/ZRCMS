@@ -3,6 +3,28 @@ import "./BranchComplaintList.css"; // Import your CSS file
 import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
+const STATUS_MAP = {
+    0: "Initiated",
+    1: "Under Review",
+    2: "Assign To Manager",
+    3: "Rejected By Manager",
+    4: "Assign To Supervision",
+    5: "Rejected By Supervision",
+    6: "Assign To Field Inspector",
+    7: "Rejected By Field Inspector",
+    8: "Assign To Quality Check",
+    9: "Rejected By Quality Check",
+    10: "Assign To Sales Head",
+    11: "Rejected By Sales Head",
+    12: "Assign To Director",
+    13: "Rejected By Director",
+    14: "Assign To Account",
+    15: "Rejected By Account",
+    16: "Pending",
+    17: "Claim Pass",
+    18: "Generated Voucher"
+};
+
 function BranchComplaintList() {
     const [branchData, setBranchData] = useState([]);
     const [search, setSearch] = useState('');
@@ -49,17 +71,17 @@ function BranchComplaintList() {
             .catch(() => setBranchData([]));
         setBranchData([]); // Remove this and uncomment above when API is ready
     }, []);
-    console.log("Branch Data", branchData);
+    // console.log("Branch Data", branchData);
     // Filter data based on search and year
     const filteredData = branchData.filter(row => {
         const searchMatch =
-            (row.report_no || '').toLowerCase().includes(search.toLowerCase()) ||
-            (row.branch_name || '').toLowerCase().includes(search.toLowerCase()) ||
-            (row.branch_number || '').toLowerCase().includes(search.toLowerCase()) ||
-            (row.current_status || '').toLowerCase().includes(search.toLowerCase());
+            (row?.report_no || '').toLowerCase().includes(search.toLowerCase()) ||
+            (row?.s_branch_name || '').toLowerCase().includes(search.toLowerCase()) ||
+            (row?.s_branch_mob || '').toLowerCase().includes(search.toLowerCase()) ||
+            (row?.s_current_status || '').toLowerCase().includes(search.toLowerCase());
         let yearMatch = true;
-        if (year && row.claim_date) {
-            const d = new Date(row.claim_date);
+        if (year && row?.complaint_added_datetime) {
+            const d = new Date(row?.complaint_added_datetime);
             const y = d.getFullYear();
             if (year === '2024-25') yearMatch = y === 2024 || y === 2025;
             else if (year === '2023-24') yearMatch = y === 2023 || y === 2024;
@@ -67,6 +89,9 @@ function BranchComplaintList() {
         }
         return searchMatch && yearMatch;
     });
+    function gotoclaimview(claim_id) {
+    navigate('/BranchComplaintList/ManagerClaimView', { state: { claim_id } });
+  }
     return (
         <div className="branchcomplaintlist-dashboard-bg branchcomplaintlist-layout">
             <Sidebar />
@@ -141,22 +166,19 @@ function BranchComplaintList() {
                                 {filteredData.length > 0 ? (
                                     filteredData.slice(0, entries).map((row, idx) => (
                                         <tr key={idx}>
-                                            <td>{row.report_no}</td>
-                                            <td>{row.claim_date}</td>
-                                            <td>{row.branch_name}</td>
-                                            <td>{row.branch_number}</td>
-                                            <td>{row.current_status}</td>
+                                            <td>{row?.report_no}</td>
+                                            <td>{row?.complaint_added_datetime}</td>
+                                            <td>{row?.s_branch_name}</td>
+                                            <td>{row?.s_branch_mob}</td>
+                                            <td>
+                                                <span className={`dealercomplaintlist-status status-${row.s_current_status}`}>
+                                                    {STATUS_MAP[row.s_current_status] || row.s_current_status}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <button
                                                     className="branchcomplaintlist-view-btn"
-                                                    style={{
-                                                        color: "#0033ff",
-                                                        background: "none",
-                                                        border: "none",
-                                                        textDecoration: "underline",
-                                                        cursor: "pointer",
-                                                        fontWeight: 500
-                                                    }}
+                                                    onClick={() => gotoclaimview(row.claim_id)}
                                                 >
                                                     View
                                                 </button>

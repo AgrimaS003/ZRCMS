@@ -57,7 +57,7 @@ function ManagerClaimView() {
                     return res.json();
                 })
                 .then(data => {
-                    console.log("Protected data:", data);
+                    // console.log("Protected data:", data);
                     // setUserData(data); // Or update state
                 })
                 .catch(err => {
@@ -104,6 +104,27 @@ function ManagerClaimView() {
             })
             .catch(err => console.error("Error fetching past sales performance data:", err));
     },[])
+     const [status, setStatus] = useState(null);
+    const [claimId, setClaimId] = useState(null);
+
+    function handleReject(e) {
+        // console.log(e); // optionally inspect the event or ID
+        setStatus(3);
+        setClaimId(e); // assuming 'e' is the claim ID
+    }
+
+    useEffect(() => {
+        if (claimId !== null) {
+            fetch(`http://192.168.1.29:5015/rejectclaimbymanager?claimid=${claimId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Claim rejected:', data);
+                })
+                .catch(error => {
+                    console.error('Error rejecting claim:', error);
+                });
+        }
+    }, [claimId]); 
 
     return (
         <div className="managerclaim-dashboard-bg">
@@ -176,7 +197,9 @@ function ManagerClaimView() {
                         >
                             View Claim
                         </button>
-                        <button className="managerclaim-btn red">Reject Claim</button>
+                        <button className="managerclaim-btn red"
+                        onClick={()=>handleReject(claimViewData?.claim_id)}
+                        >Reject Claim</button>
                     </div>
                 </div>
                 <ManagerClaimAccordion claimViewData={claimViewData} communicationData={communicationData} performanceData={performanceData} />

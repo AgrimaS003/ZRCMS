@@ -78,19 +78,19 @@ function ViewClaimForm() {
             <div className="claimform-row">
                 <div>
                     <label>Customer Company Name</label>
-                    <input value={claimViewData?.customer_company_name || ""} readOnly />
+                    <input value={claimViewData?.customer_company || ""} readOnly />
                 </div>
                 <div>
-                    <label>Contact Person name</label>
-                    <input value={claimViewData?.contact_person_name || ""} readOnly />
+                    <label>Customer name</label>
+                    <input value={claimViewData?.customer_name || ""} readOnly />
                 </div>
                 <div>
                     <label>Address</label>
-                    <input value={claimViewData?.address || ""} readOnly />
+                    <input value={claimViewData?.customer_address || ""} readOnly />
                 </div>
                 <div>
                     <label>Customer Mobile No.</label>
-                    <input value={claimViewData?.customer_mobile_no || ""} readOnly />
+                    <input value={claimViewData?.customer_mobile || ""} readOnly />
                 </div>
             </div>
 
@@ -103,19 +103,19 @@ function ViewClaimForm() {
                 </div>
                 <div>
                     <label>Zircar's Invoice No.</label>
-                    <input value={claimViewData?.invoice_no || ""} readOnly />
+                    <input value={claimViewData?.zircar_invoice_no || ""} readOnly />
                 </div>
                 <div>
                     <label>Invoice Date</label>
-                    <input value={claimViewData?.invoice_date || ""} readOnly />
+                    <input value={claimViewData?.zircar_invoice_date || ""} readOnly />
                 </div>
                 <div>
                     <label>Product</label>
-                    <input value={claimViewData?.product || ""} readOnly />
+                    <input value={claimViewData?.product_name || ""} readOnly />
                 </div>
                 <div>
                     <label>Code no.</label>
-                    <input value={claimViewData?.code_no || ""} readOnly />
+                    <input value={claimViewData?.product_code || ""} readOnly />
                 </div>
                 <div>
                     <label>Product Brand</label>
@@ -162,7 +162,7 @@ function ViewClaimForm() {
             <div className="claimform-row">
                 <div>
                     <label>Installation Date</label>
-                    <input value={claimViewData?.installation_date || ""} readOnly />
+                    <input value={claimViewData?.Installation_date || ""} readOnly />
                 </div>
                 <div>
                     <label>Failed Date</label>
@@ -246,13 +246,13 @@ function ViewClaimForm() {
             <div className="claimform-row">
                 <div>
                     <label>Nature of complaint</label>
-                    <input value={claimViewData?.nature_of_complaint || ""} readOnly />
+                    <input value={claimViewData?.Nature_of_Complaint || ""} readOnly />
                 </div>
             </div>
             <div className="claimform-row">
                 <div>
                     <label>Product</label>
-                    <input value={claimViewData?.product || ""} readOnly />
+                    <input value={claimViewData?.product_name || ""} readOnly />
                 </div>
                 <div>
                     <label>Application</label>
@@ -266,55 +266,55 @@ function ViewClaimForm() {
             <div className="claimform-row">
                 <div>
                     <label>Resin/Pitch Bonded</label>
-                    <input value={claimViewData?.resin_pitch_bonded || ""} readOnly />
+                    <input value={claimViewData?.Resin_Pitch_Bonded || ""} readOnly />
                 </div>
                 <div>
                     <label>Recipe</label>
-                    <input value={claimViewData?.recipe || ""} readOnly />
+                    <input value={claimViewData?.Recepie || ""} readOnly />
                 </div>
                 <div>
                     <label>Styling Machine</label>
-                    <input value={claimViewData?.styling_machine || ""} readOnly />
+                    <input value={claimViewData?.Styling_Machine || ""} readOnly />
                 </div>
             </div>
             <div className="claimform-row">
                 <div>
                     <label>Application (Metal/Fuel) of Product Produced For</label>
-                    <input value={claimViewData?.application_metal_fuel || ""} readOnly />
+                    <input value={claimViewData?.application || ""} readOnly />
                 </div>
                 <div>
                     <label>Date Of Moulding</label>
-                    <input value={claimViewData?.date_of_moulding || ""} readOnly />
+                    <input value={claimViewData?.Date_of_Moulding || ""} readOnly />
                 </div>
             </div>
             <div className="claimform-row">
                 <div>
                     <label>Green Stage</label>
-                    <input value={claimViewData?.green_stage || ""} readOnly />
+                    <input value={claimViewData?.Green_Stage || ""} readOnly />
                 </div>
                 <div>
                     <label>Date</label>
-                    <input value={claimViewData?.green_stage_date || ""} readOnly />
+                    <input value={claimViewData?.Green_Stage_date || ""} readOnly />
                 </div>
             </div>
             <div className="claimform-row">
                 <div>
                     <label>1st Fired Stage / Curing Stage</label>
-                    <input value={claimViewData?.first_fired_stage || ""} readOnly />
+                    <input value={claimViewData?.Curing_Stage || ""} readOnly />
                 </div>
                 <div>
                     <label>Date</label>
-                    <input value={claimViewData?.first_fired_stage_date || ""} readOnly />
+                    <input value={claimViewData?.Curing_Stage_date || ""} readOnly />
                 </div>
             </div>
             <div className="claimform-row">
                 <div>
                     <label>Glaze Fired Stage (HT Firing)</label>
-                    <input value={claimViewData?.glaze_fired_stage || ""} readOnly />
+                    <input value={claimViewData?.Glaze_Fired_Stage || ""} readOnly />
                 </div>
                 <div>
                     <label>Date</label>
-                    <input value={claimViewData?.glaze_fired_stage_date || ""} readOnly />
+                    <input value={claimViewData?.Glaze_Fired_Stage_date || ""} readOnly />
                 </div>
             </div>
             <div className="claimform-row">
@@ -330,19 +330,19 @@ function ViewClaimForm() {
             <div className="claimform-row">
                 <div>
                     <label>Over All Remarks on Produced Product</label>
-                    <input value={claimViewData?.overall_remarks || ""} readOnly />
+                    <input value={claimViewData?.Over_All_Remarks_on_Produced_Product || ""} readOnly />
                 </div>
             </div>
             <div className="claimform-row">
                 <div>
                     <label>Remarks on Complaint</label>
-                    <input value={claimViewData?.remarks_on_complaint || ""} readOnly />
+                    <input value={claimViewData?.Remarks_on_Complaint || ""} readOnly />
                 </div>
             </div>
             <div className="claimform-row">
                 <div>
                     <label>Remedial Action to be taken</label>
-                    <input value={claimViewData?.remedial_action || ""} readOnly />
+                    <input value={claimViewData?.RemarksOnFutureBusiness || ""} readOnly />
                 </div>
             </div>
         </div>

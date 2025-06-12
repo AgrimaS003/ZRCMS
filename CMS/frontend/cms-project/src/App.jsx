@@ -93,6 +93,8 @@ function App() {
           <Route path="/AssignedComplaints" element={<AssignedComplaints/>}/>
           <Route path="/RejectedComplaints" element={<RejectedComplaints/>}/>
           <Route path="/BranchComplaintList" element={<BranchComplaintList/>}/>
+          <Route path="/BranchComplaintList/ManagerClaimView" element={<ManagerClaimView/>}/>
+          <Route path="/BranchComplaintList/ViewClaimForm"element={<ViewClaimForm/>} />
           <Route path="/FileComplaint" element={<FileComplaint/>}/>
           <Route path="/ProcessedClaim" element={<ProcessedClaim/>}/>
           <Route path="/UnprocessedClaim" element={<UnprocessedClaim/>}/>
