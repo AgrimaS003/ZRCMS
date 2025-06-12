@@ -10,6 +10,7 @@ const QC_Complaint_List = () => {
   const [entriesPerPage, setEntriesPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState('');
   const { usertype } = useParams();
+  const [selectedYear, setSelectedYear] = useState('');
   const navigate = useNavigate();
 
   useEffect(()=>{
@@ -39,9 +40,25 @@ const QC_Complaint_List = () => {
     });
   }, [usertype]);
 
-    const filteredComplaints = complaints.filter((complaint) =>
+    const filteredComplaints = complaints
+  .filter((complaint) =>
     (complaint.dealer_name || '').toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  )
+  .filter((complaint) => {
+    if (!selectedYear) return true;
+
+    const [startYear, endYear] = selectedYear.split('-').map(Number);
+    const claimDate = new Date(complaint.claim_date);
+    const claimMonth = claimDate.getMonth(); // Jan=0, Apr=3
+
+    // If month is April (3) to December (11), check startYear
+    // If month is Jan (0) to March (2), check endYear
+    if (claimMonth >= 3) {
+      return claimDate.getFullYear() === startYear;
+    } else {
+      return claimDate.getFullYear() === endYear;
+    }
+  });
 
   const paginatedComplaints =
     entriesPerPage === 'All'
@@ -61,11 +78,20 @@ const QC_Complaint_List = () => {
             <p id='complaint-table-p'>All Complaints | List</p>
             <div className="financial-year">
                 <label htmlFor="financial-year">Select Financial Year:</label>
-                <select name="Financial-Year" id="Financial-Year" style={{marginLeft:'10px'}}>
-                    <option value="">Select Financial Year</option>
-                    <option value="2025-2026">2025-2026</option>
+                <select
+                  name="financial-year"
+                  id="financial-year"
+                  style={{ marginLeft: '10px' }}
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                >
+                  <option value="">All</option>
+                  <option value="2025-2026">2025-2026</option>
+                  <option value="2024-2025">2024-2025</option>
+                  <option value="2023-2024">2023-2024</option>
                 </select>
-            </div>
+              </div>
+
             <br />
             <div className="entries-per-page">
             <label className="entries-label">Entries per page:</label>

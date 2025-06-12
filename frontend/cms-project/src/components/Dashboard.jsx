@@ -53,7 +53,7 @@ const Dashboard = () => {
       return;
     }
       if (usertype?.toLowerCase() === 'branch') {
-  axios.post(`http://192.168.1.32:5015/branch/monthly_complaints`)
+  axios.post(`http://192.168.1.32:5015/branch/monthly_complaints`, {email})
     .then(res => {
       if (res.data.success) {
         const monthNames = [
@@ -232,8 +232,8 @@ const Dashboard = () => {
               <option value="All">All</option>
             </select>
 
-            <div className="search-bar">
-              <input
+            <div className="search-bar" id='dashboard-search'>
+              <input style={{width:'35%'}}
                 type="text"
                 className="search-input"
                 placeholder="Search by customer name..."
