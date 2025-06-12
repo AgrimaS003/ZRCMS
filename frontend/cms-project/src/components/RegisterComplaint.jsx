@@ -744,56 +744,59 @@ return (
             </div>
 
             <hr />
-                <div className="attachments">
-                <h4 style={{textAlign: "left"}}>H. Attachments</h4>
+                  <div className="attachments">
+                    <h4 style={{ textAlign: "left" }}>H. Attachments</h4>
 
-                <p style={{textAlign:'left'}}>Defective Crucible Images</p>
-                <div className="attachment-row">
-                <div className="attachment-group">
-                    
-                    <label htmlFor='point_image'>Point The Problem</label>
-                    <input type="file" id="point_image" name="point_image" onChange={handleFileChange} ref={pointImageRef} required />
-                    <img src={image1} alt="Point Problem" className="attachment-img" />
-                </div>
+                    <p style={{ textAlign: 'left' }}>Defective Crucible Images</p>
 
-                <div className="attachment-group">
-                    <label htmlFor='full_view_image'>Full View of Problematic Crucible</label>
-                    <input type="file" id="full_view_image" name="full_view_image" onChange={handleFileChange} ref={fullViewImageRef} required />
-                    <img src={image2} alt="Full View" className="attachment-img" />
-                </div>
-                </div>
+                    {/* 3 Images per row */}
+                    <div className="attachment-row three-per-row">
+                      <div className="attachment-group">
+                        <label htmlFor='point_image'>Point The Problem</label>
+                        <input type="file" id="point_image" name="point_image" onChange={handleFileChange} ref={pointImageRef} required />
+                        <img src={image1} alt="Point Problem" className="attachment-img" />
+                      </div>
 
-                <div className="attachment-row">
-                <div className="attachment-group">
-                    <label htmlFor='reference_location_image'>Crucible with Reference of Location</label>
-                    <input type="file" id="reference_location_image" name="reference_location_image" onChange={handleFileChange} ref={referenceLocationImageRef} required />
-                    <img src={image3} alt="Reference Location" className="attachment-img" />
-                </div>
+                      <div className="attachment-group">
+                        <label htmlFor='full_view_image'>Full View of Problematic Crucible</label>
+                        <input type="file" id="full_view_image" name="full_view_image" onChange={handleFileChange} ref={fullViewImageRef} required />
+                        <img src={image2} alt="Full View" className="attachment-img" />
+                      </div>
 
-                <div className="attachment-group">
-                    <label htmlFor='top_view_image'>Top View</label>
-                    <input type="file" id="top_view_image" name="top_view_image" onChange={handleFileChange} ref={topViewImageRef} required />
-                    <img src={image4} alt="Top View" className="attachment-img" />
-                </div>
-                </div>
+                      <div className="attachment-group">
+                        <label htmlFor='reference_location_image'>Crucible with Reference of Location</label>
+                        <input type="file" id="reference_location_image" name="reference_location_image" onChange={handleFileChange} ref={referenceLocationImageRef} required />
+                        <img src={image3} alt="Reference Location" className="attachment-img" />
+                      </div>
+                    </div>
 
-                <div className="attachment-row">
-                <div className="attachment-group">
-                    <label htmlFor='bottom_view_image'>Bottom View</label>
-                    <input type="file" id="bottom_view_image" name="bottom_view_image" onChange={handleFileChange} ref={bottomViewImageRef} required />
-                    <img src={image5} alt="Bottom View" className="attachment-img" />
-                </div>
-                </div>
+                    {/* 2 Images per row */}
+                    <div className="attachment-row two-per-row">
+                      <div className="attachment-group">
+                        <label htmlFor='top_view_image'>Top View</label>
+                        <input type="file" id="top_view_image" name="top_view_image" onChange={handleFileChange} ref={topViewImageRef} required />
+                        <img src={image4} alt="Top View" className="attachment-img" />
+                      </div>
 
-                <p style={{textAlign:'left'}}><b>Note: </b>Minimum 5 Images According to instructions mentioned in Annexure-A Photo Guidelines. Please Download it From "Download Forms" Section.</p>
+                      <div className="attachment-group">
+                        <label htmlFor='bottom_view_image'>Bottom View</label>
+                        <input type="file" id="bottom_view_image" name="bottom_view_image" onChange={handleFileChange} ref={bottomViewImageRef} required />
+                        <img src={image5} alt="Bottom View" className="attachment-img" />
+                      </div>
+                    </div>
 
-                <div className="attachment-row">
-                <div className="attachment-group">
-                    <label>Other Attachments (if any)</label>
-                    <input type="file" id="extra_images" name="extra_images" multiple onChange={handleFileChange} ref={extraImagesRef} />
-                </div>
-                </div>
-            </div>
+                    <p style={{ textAlign: 'left' }}>
+                      <b>Note: </b>Minimum 5 Images According to instructions mentioned in Annexure-A Photo Guidelines. Please Download it From "Download Forms" Section.
+                    </p>
+
+                    {/* Optional / extra images */}
+                    <div className="attachment-row one-per-row">
+                      <div className="attachment-group">
+                        <label>Other Attachments (if any)</label>
+                        <input type="file" id="extra_images" name="extra_images" multiple onChange={handleFileChange} ref={extraImagesRef} />
+                      </div>
+                    </div>
+                  </div>
 
             <hr />
              <div className="past-sales-performance">
