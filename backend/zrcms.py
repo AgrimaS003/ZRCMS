@@ -275,6 +275,11 @@ def register_complaint(usertype):
             return jsonify({"success":False,"error": "Invalid usertype"}), 400
         
         claim_id=cursor.lastrowid
+        insert_status_query = """
+            INSERT INTO tr_claimstatus 
+            (s_claim_id, ns_claimstatus, s_updated_on, s_dealer_id)
+            VALUES (%s, %s, %s, %s) """
+        cursor.execute(insert_status_query,(claim_id, 0, now, dealer_id, ))
 
         complaint_data = {
             "claim_id": claim_id,
@@ -432,7 +437,7 @@ def register_complaint(usertype):
         print(str(e))
         return jsonify({"error_msg ":str(e)}), 500
     
-###### 
+######
 @app.route('/<usertype>/dashboard', methods=['POST'])
 def dealer_dashboard(usertype):
     try:
@@ -454,13 +459,24 @@ def dealer_dashboard(usertype):
                 z.customer_name,
                 z.complaint_id,
                 z.claim_id,
-                t.s_current_status AS status_code,
+                ts.ns_claimstatus AS status_code,
                 m.status_name
             FROM z_complaints_1 z
-            LEFT JOIN tr_claims t ON z.claim_id = t.s_claim_id
-            LEFT JOIN m_status m ON t.s_current_status = m.status_code
-            WHERE z.dealer_id = %s """
-            cursor.execute(query, (dealer_id,))
+            LEFT JOIN (
+                SELECT ts.s_claim_id, ts.ns_claimstatus
+                FROM tr_claimstatus ts
+                JOIN (
+                    SELECT s_claim_id, MAX(s_updated_on) AS latest_update
+                    FROM tr_claimstatus
+                    WHERE s_dealer_id = %s
+                    GROUP BY s_claim_id
+                ) latest ON ts.s_claim_id = latest.s_claim_id AND ts.s_updated_on = latest.latest_update
+            ) ts ON z.claim_id = ts.s_claim_id
+            LEFT JOIN m_status m ON ts.ns_claimstatus = m.status_code
+            WHERE z.dealer_id = %s
+            """
+            cursor.execute(query, (dealer_id, dealer_id))
+
             complaints = cursor.fetchall()
             cursor.close()
             db.close()
@@ -472,49 +488,65 @@ def dealer_dashboard(usertype):
             branch = cursor.fetchone()
             branch_id = branch['s_branch_id']
 
-            # Fetch complaints for this branch
             query = """
             SELECT 
                 z.report_no,
                 z.customer_name,
                 z.complaint_id,
                 z.claim_id,
-                t.s_current_status AS status_code,
+                ts.ns_claimstatus AS status_code,
                 m.status_name
             FROM z_complaints_1 z
-            LEFT JOIN tr_claims t ON z.claim_id = t.s_claim_id
-            LEFT JOIN m_status m ON t.s_current_status = m.status_code
+            LEFT JOIN (
+                SELECT ts.s_claim_id, ts.ns_claimstatus
+                FROM tr_claimstatus ts
+                JOIN (
+                    SELECT s_claim_id, MAX(s_updated_on) AS latest_update
+                    FROM tr_claimstatus
+                    WHERE s_dealer_id = %s
+                    GROUP BY s_claim_id
+                ) latest ON ts.s_claim_id = latest.s_claim_id AND ts.s_updated_on = latest.latest_update
+            ) ts ON z.claim_id = ts.s_claim_id
+            LEFT JOIN m_status m ON ts.ns_claimstatus = m.status_code
             WHERE z.dealer_id = %s
             """
-            cursor.execute(query, (branch_id,))
+            cursor.execute(query, (branch_id, branch_id))
+
             complaints = cursor.fetchall()
             cursor.close()
             db.close()
             return jsonify({'success': True, 'data': complaints}), 200
     
         elif usertype in staff_roles:
-            query = """ SELECT
+            query = """
+            SELECT 
                 z.report_no,
                 z.customer_name,
                 z.complaint_id,
                 z.claim_id,
-                t.s_current_status AS status_code,
+                ts.ns_claimstatus AS status_code,
                 m.status_name,
                 CASE 
                     WHEN d.s_dealer_id IS NOT NULL THEN 'Dealer'
                     WHEN b.s_branch_id IS NOT NULL THEN 'Branch'
                     ELSE 'Unknown'
                 END AS branch_type
-                FROM z_complaints_1 z
-                LEFT JOIN tr_claims t ON z.claim_id = t.s_claim_id
-                LEFT JOIN m_status m ON t.s_current_status = m.status_code
-                LEFT JOIN m_dealer d ON z.dealer_id = d.s_dealer_id
-                LEFT JOIN m_branch b ON z.dealer_id = b.s_branch_id
+            FROM z_complaints_1 z
+            LEFT JOIN (
+                SELECT ts.s_claim_id, ts.ns_claimstatus
+                FROM tr_claimstatus ts
+                JOIN (
+                    SELECT s_claim_id, MAX(s_updated_on) AS latest_update
+                    FROM tr_claimstatus
+                    GROUP BY s_claim_id
+                ) latest ON ts.s_claim_id = latest.s_claim_id AND ts.s_updated_on = latest.latest_update
+            ) ts ON z.claim_id = ts.s_claim_id
+            LEFT JOIN m_status m ON ts.ns_claimstatus = m.status_code
+            LEFT JOIN m_dealer d ON z.dealer_id = d.s_dealer_id
+            LEFT JOIN m_branch b ON z.dealer_id = b.s_branch_id
             """
-            # FROM z_complaints_1 z
-            # LEFT JOIN tr_claims t ON z.claim_id = t.s_claim_id
-            # LEFT JOIN m_status m ON t.s_current_status = m.status_code
             cursor.execute(query)
+
             complaints = cursor.fetchall()
             cursor.close()
             db.close()
@@ -588,7 +620,7 @@ def active_complaints(usertype):
             z.customer_name,
             z.customer_address,
             t.s_current_status AS status_code,
-            m.status_name
+            m.status_name 
         FROM z_complaints_1 z
         LEFT JOIN tr_claims t ON z.claim_id = t.s_claim_id
         LEFT JOIN m_status m ON t.s_current_status = m.status_code
@@ -1094,6 +1126,49 @@ def delete_photo(usertype):
 #         return jsonify({"error_msg":str(e)}), 500
 
 
+# @app.route('/<usertype>/claim_timeline', methods=['POST'])
+# def claim_timeline(usertype):
+#     try:
+#         data = request.get_json()
+#         input_id = data.get('claim_id')  # May be claim_id or report_no
+
+#         db = get_connection()
+#         cursor = db.cursor(dictionary=True)
+
+#         # Staff roles
+#         staff_roles = ['manager', 'supervisor', 'inspection', 'quality_check', 'sales_head', 'director', 'account']
+#         usertype_lower = usertype.lower()
+
+#         # Resolve claim_id if staff
+#         if usertype_lower in staff_roles:
+#             cursor.execute("SELECT claim_id FROM z_complaints_1 WHERE report_no = %s", (input_id,))
+#             row = cursor.fetchone()
+#             if not row:
+#                 return jsonify({"success": False, "message": "Invalid report_no for staff"}), 404
+#             claim_id = row['claim_id']
+#         else:
+#             claim_id = input_id
+
+#         # Fetch all rows for this claim_id to build the timeline
+#         query = """
+#             SELECT 
+#                 ms.status_name AS description,
+#                 tc.ns_last_update_on AS timestamp
+#             FROM tr_claims tc
+#             JOIN m_status ms ON tc.s_current_status = ms.status_code
+#             WHERE tc.s_claim_id = %s
+#             ORDER BY tc.ns_last_update_on ASC
+#         """
+#         cursor.execute(query, (claim_id,))
+#         timeline_entries = cursor.fetchall()
+
+#         return jsonify({"success": True, "events": timeline_entries}), 200
+
+#     except Exception as e:
+#         print("Error in claim_timeline:", str(e))
+#         return jsonify({"success": False, "error_msg": str(e)}), 500
+
+
 @app.route('/<usertype>/claim_timeline', methods=['POST'])
 def claim_timeline(usertype):
     try:
@@ -1117,15 +1192,19 @@ def claim_timeline(usertype):
         else:
             claim_id = input_id
 
-        # Fetch all rows for this claim_id to build the timeline
+        # New query using tr_claimstatus
         query = """
             SELECT 
                 ms.status_name AS description,
-                tc.ns_last_update_on AS timestamp
-            FROM tr_claims tc
-            JOIN m_status ms ON tc.s_current_status = ms.status_code
-            WHERE tc.s_claim_id = %s
-            ORDER BY tc.ns_last_update_on ASC
+                tcs.s_updated_on AS timestamp,
+                tcs.s_in_staffid,
+                tcs.s_dealer_id,
+                tcs.ns_update_type,
+                tcs.ns_remarks
+            FROM tr_claimstatus tcs
+            JOIN m_status ms ON tcs.ns_claimstatus = ms.status_code
+            WHERE tcs.s_claim_id = %s
+            ORDER BY tcs.s_updated_on ASC
         """
         cursor.execute(query, (claim_id,))
         timeline_entries = cursor.fetchall()
@@ -1135,6 +1214,7 @@ def claim_timeline(usertype):
     except Exception as e:
         print("Error in claim_timeline:", str(e))
         return jsonify({"success": False, "error_msg": str(e)}), 500
+
 
 ######
 @app.route('/<usertype>/all_complaint_list', methods=['POST'])
