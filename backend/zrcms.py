@@ -1287,24 +1287,45 @@ def update_photo_status(usertype):
         return jsonify({"success": False, "error": str(e)}), 500
 
 ######
-@app.route('/branch/monthly_complaints',methods=['POST'])
+@app.route('/branch/monthly_complaints', methods=['POST'])
 def monthly_complaints():
     try:
+        data = request.get_json()
+        email = data.get('email')
+        print("Recieved email : ",email)
+        if not email:
+            return jsonify({'success': False, 'message': 'Email is required'})
+
         db = get_connection()
         cursor = db.cursor(dictionary=True)
+
+        # Step 1: Get s_branch_id using the branch email
+        cursor.execute("SELECT s_branch_id FROM m_branch WHERE s_branch_email = %s", (email,))
+        branch = cursor.fetchone()
+
+        if not branch:
+            return jsonify({'success': False, 'message': 'Branch not found'})
+
+        s_branch_id = branch['s_branch_id']
+
+        # Step 2: Filter complaints for this specific branch using s_branch_id = s_dealer_id
         query = """
             SELECT 
                 MONTH(complaint_added_datetime) AS month,
                 COUNT(*) AS count
             FROM z_complaints_1
+            WHERE dealer_id = %s
             GROUP BY MONTH(complaint_added_datetime)
             ORDER BY month
         """
-        cursor.execute(query)
+        cursor.execute(query, (s_branch_id,))
         result = cursor.fetchall()
+
         return jsonify({'success': True, 'data': result})
+
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)})
+
 
 if __name__=='__main__':
     app.run(host='0.0.0.0', port=5015,debug=True) 
