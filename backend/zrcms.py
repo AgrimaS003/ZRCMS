@@ -951,7 +951,8 @@ def get_photos(usertype):
                 p.s_photo_name,
                 p.s_photo,
                 p.s_photo_type,
-                ps.status_name AS s_photo_status,
+                p.s_photo_status,
+                ps.status_name,
                 p.ns_remarks
             FROM tr_defectivephotos p
             LEFT JOIN photo_status ps ON p.s_photo_status = ps.status_code
@@ -1102,11 +1103,11 @@ def claim_timeline(usertype):
         db = get_connection()
         cursor = db.cursor(dictionary=True)
 
-        # Define staff roles
+        # Staff roles
         staff_roles = ['manager', 'supervisor', 'inspection', 'quality_check', 'sales_head', 'director', 'account']
         usertype_lower = usertype.lower()
 
-        # If staff, translate report_no to claim_id
+        # Resolve claim_id if staff
         if usertype_lower in staff_roles:
             cursor.execute("SELECT claim_id FROM z_complaints_1 WHERE report_no = %s", (input_id,))
             row = cursor.fetchone()
@@ -1116,7 +1117,7 @@ def claim_timeline(usertype):
         else:
             claim_id = input_id
 
-        # Fetch timeline events using claim_id
+        # Fetch all rows for this claim_id to build the timeline
         query = """
             SELECT 
                 ms.status_name AS description,
@@ -1127,14 +1128,13 @@ def claim_timeline(usertype):
             ORDER BY tc.ns_last_update_on ASC
         """
         cursor.execute(query, (claim_id,))
-        result = cursor.fetchall()
+        timeline_entries = cursor.fetchall()
 
-        return jsonify({"success": True, "events": result}), 200
+        return jsonify({"success": True, "events": timeline_entries}), 200
 
     except Exception as e:
-        print(str(e))
+        print("Error in claim_timeline:", str(e))
         return jsonify({"success": False, "error_msg": str(e)}), 500
-
 
 ######
 @app.route('/<usertype>/all_complaint_list', methods=['POST'])
@@ -1174,6 +1174,37 @@ def all_complaint_list(usertype):
     except Exception as e:
         print(str(e))
         return jsonify({"error_msg":str(e)}), 500
+
+
+######
+@app.route('/<usertype>/update_photo_status', methods=['POST'])
+def update_photo_status(usertype):
+    try:
+        data = request.get_json()
+        print("Received data:", data)  # Log incoming data
+
+        s_photo_id = data.get('s_photo_id')
+        status_code = data.get('status_code')
+
+        if not s_photo_id or status_code is None:
+            print("Missing s_photo_id or status_code")
+            return jsonify({"success": False, "error": "Missing s_photo_id or status_code"}), 400
+
+        db = get_connection()
+        cursor = db.cursor()
+
+        cursor.execute(
+            "UPDATE tr_defectivephotos SET s_photo_status = %s WHERE s_photo_id = %s",
+            (status_code, s_photo_id)
+        )
+        db.commit()
+
+        print("Updated photo", s_photo_id, "with status", status_code)
+        return jsonify({"success": True}), 200
+
+    except Exception as e:
+        print("Server error:", str(e))  # log the actual server error
+        return jsonify({"success": False, "error": str(e)}), 500
 
 ######
 @app.route('/branch/monthly_complaints',methods=['POST'])

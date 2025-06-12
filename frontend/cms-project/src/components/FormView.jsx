@@ -107,6 +107,49 @@ const handleDelete = async (s_photo_id) => {
   }
     setTimeout( ()=> setMessage('') , 3000);
 };
+const finalizedStatusCodes = new Set([ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]);
+
+const statusMap = {
+  manager: { accept: 2, reject: 3 },
+  supervisor: { accept: 4, reject: 5 },
+  inspection: { accept: 6, reject: 7 },
+  quality_check: { accept: 8, reject: 9 },
+  sales_head: { accept: 10, reject: 11 },
+  director: { accept: 12, reject: 13 },
+  account: { accept: 14, reject: 15 }
+};
+
+
+const handlePhotoAction = async (photoId, actionType) => {
+  if (!statusMap[usertype]) return;
+
+  const statusCode = statusMap[usertype][actionType];
+  let reason = '';
+  try {
+    const response = await axios.post(`http://192.168.1.32:5015/${usertype}/update_photo_status`, {
+      s_photo_id: photoId,
+      status_code: statusCode,
+    });
+
+    if (response.data.success) {
+      setPhotos((prevPhotos) =>
+        prevPhotos.map((photo) =>
+          photo.s_photo_id === photoId
+            ? { ...photo, s_photo_status: statusCode, _statusChanged: true }
+            : photo
+        )
+      );
+      setMessage(`Photo ${actionType}d successfully.`);
+    } else {
+      setMessage(`Failed to ${actionType} photo.`);
+    }
+  } catch (err) {
+    console.error(err);
+    setMessage(`Error while trying to ${actionType} photo.`);
+  }
+
+  setTimeout(() => setMessage(''), 2000);
+};
 
   const { table_data = [], outstanding, remarks } = complaintData || {};
   return (
@@ -448,7 +491,7 @@ const handleDelete = async (s_photo_id) => {
                           {photos.map((photo) => (
                             <div className="form-image-card" key={photo.s_photo_id}>
                               <p id="form-image-name">{photo.s_photo_name}</p>
-                              <p id="weight-id">Status: {photo.s_photo_status || 'N/A'}</p>
+                              <p id="weight-id">Status: {photo.status_name || 'N/A'}</p>
                               <p id="weight-id">Remarks: {photo.ns_remarks || 'N/A'}</p>
                               <div className="action-row">
                                     <RiFileImageFill
@@ -458,28 +501,44 @@ const handleDelete = async (s_photo_id) => {
                                       onClick={() => handleOpenBase64Image(photo.s_photo_base64)}
                                     />
                     {allowedRoles.includes(usertype) ? (
-                          <>
-                            <button
-                              id="edit-button"
-                              onClick={() => navigate(`/${usertype}/reupload_document`, { state: { photo: { ...photo, s_claim_id: claim_id } } })}
-                            >
-                              Edit
-                            </button>
-                            <button id="delete-button" onClick={() => handleDelete(photo.s_photo_id)}>
-                              Delete
-                            </button>
-                          </>
-                        ) : staffRoles.includes(usertype) ? (
-                          <>
-                            <button id="approve-button" onClick={() => console.log('Approve clicked')}>
-                              Approve
-                            </button>
-                            <button id="reject-button" onClick={() => console.log('Reject clicked')}>
-                              Reject
-                            </button>
-                          </>
-                        ) : null}
-
+                            <>
+                              <button
+                                id="edit-button"
+                                onClick={() =>
+                            navigate(`/${usertype}/reupload_document`, {
+                                      state: { photo: { ...photo, s_claim_id: claim_id } },
+                                    })
+                                  }
+                                  disabled={finalizedStatusCodes.has(Number(photo.s_photo_status))}
+                                  title={finalizedStatusCodes.has(Number(photo.s_photo_status)) ? 'Locked by staff action' : ''}>
+                                  Edit
+                                </button>
+                                <button
+                                  id="delete-button"
+                                  onClick={() => handleDelete(photo.s_photo_id)}
+                                  disabled={finalizedStatusCodes.has(Number(photo.s_photo_status))}
+                                  title={finalizedStatusCodes.has(Number(photo.s_photo_status)) ? 'Locked by staff action' : ''}>
+                                Delete
+                              </button>
+                            </>
+                          ) : staffRoles.includes(usertype) ? (
+                            <>
+                              <button
+                                id="approve-button"
+                                onClick={() => handlePhotoAction(photo.s_photo_id, 'accept')}
+                                disabled={finalizedStatusCodes.has(Number(photo.s_photo_status))}
+                              >
+                                Approve
+                              </button>
+                              <button
+                                id="reject-button"
+                                onClick={() => handlePhotoAction(photo.s_photo_id, 'reject')}
+                                disabled={finalizedStatusCodes.has(Number(photo.s_photo_status))}
+                              >
+                                Reject
+                              </button>
+                            </>
+                          ) : null}
                     </div>
                   </div>
                 ))}
