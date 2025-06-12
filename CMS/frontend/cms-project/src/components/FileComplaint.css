@@ -581,3 +581,14 @@
         max-width: 40vw;
     }
 } */
+.attechments-last {
+    margin-top: 2vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.attechments-last span {
+    margin-bottom: 2vh;
+}

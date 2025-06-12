@@ -25,6 +25,8 @@ import ProcessedClaim from "./components/ProcessedClaim";
 import UnprocessedClaim from "./components/UnprocessedClaim";
 import ApprovedClaim from "./components/ApprovedClaim";
 import DirectorClaimView from "./components/DirectorClaimView";
+import Dashboard2 from "./components/dashboard2";
+import RegisterComplaint from "./components/RegisterComplaint";
 
 
 function App() {
@@ -74,6 +76,7 @@ function App() {
         {/* <Sidebar /> */}
         <Routes>
           <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/Dashboard2" element={<Dashboard2 />} />
           <Route path="/Login" element={<LogIn />} />
           <Route path="/Logout" element={<Logout/>}/>
           <Route path="/RegistrationForm" element={<RegistrationForm />} />
@@ -100,6 +103,7 @@ function App() {
           <Route path="/UnprocessedClaim" element={<UnprocessedClaim/>}/>
           <Route path="/ApprovedClaim" element={<ApprovedClaim/>}/>
           <Route path="/DirectorClaimView" element={<DirectorClaimView/>}/>
+          <Route path="/RegisterComplaint" element={<RegisterComplaint/>} />
           {/* Add other routes here */}
           <Route path="*" element={<Navigate to="/Login" />} />
         </Routes>

@@ -154,6 +154,7 @@ function Sidebar({ userData }) {
         '2': [ // Dealer
             { label: "Dashboard", href: "/dashboard", icon: icons.dashboard },
             { label: "Profile", href: "/profile", icon: icons.profile },
+            { label: "Register Complaint", href: "/RegisterComplaint", icon: icons.fileComplaints },
         ],
         '3': [ // Manager
             { label: "Dashboard", href: "/dashboard", icon: icons.dashboard },

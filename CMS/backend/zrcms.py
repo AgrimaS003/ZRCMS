@@ -1695,6 +1695,141 @@ def rejectclaimbymanager():
     db.close()
     return jsonify({'message': 'Claim Rejected Successfully'})
 
+@app.route('/dashboard/<usertype>/', methods=['POST'])
+def dealer_dashboard(usertype):
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        print(f"usertype:",usertype)
+
+        if not email:
+            return jsonify({'success': False, 'message': 'Email is required'}), 400
+
+        staff_roles = [
+            'manager', 'supervisor', 'inspection', 
+            'quality_check', 'sales_head', 'director', 'account'
+        ]
+
+        # Convert numeric usertype to string role
+        usertype_map = {
+            '1': 'admin',
+            '2': 'dealer',
+            '3': 'branch',
+            '8': 'staff',
+            '9': 'read-only'
+        }
+
+        # mapped_usertype = usertype_map.get(str(usertype), usertype)
+        mapped_usertype = usertype_map.get(str(usertype), None)
+        if not mapped_usertype:
+            return jsonify({'success': False, 'message': 'Invalid user type'}), 400
+
+        db = get_connection()
+        cursor = db.cursor(dictionary=True)
+
+        if mapped_usertype == 'dealer':
+            cursor.execute("SELECT s_dealer_id FROM dummycms.m_dealer WHERE s_dealer_email = %s", (email,))
+            dealer = cursor.fetchone()
+            if not dealer:
+                return jsonify({'success': False, 'message': 'Dealer not found'}), 404
+
+            dealer_id = dealer['s_dealer_id']
+            query = """
+                SELECT 
+                    z.report_no,
+                    z.customer_name,
+                    z.complaint_id,
+                    z.claim_id,
+                    t.s_current_status AS status_code,
+                    m.status_name
+                FROM dummycms.z_complaints_1 z
+                LEFT JOIN dummycms.tr_claims t ON z.claim_id = t.s_claim_id
+                LEFT JOIN dummycms.m_status m ON t.s_current_status = m.status_code
+                WHERE z.dealer_id = %s
+            """
+            cursor.execute(query, (dealer_id,))
+            complaints = cursor.fetchall()
+
+        elif mapped_usertype == 'branch':
+            cursor.execute("SELECT s_branch_id FROM m_branch WHERE s_branch_email = %s", (email,))
+            branch = cursor.fetchone()
+            if not branch:
+                return jsonify({'success': False, 'message': 'Branch not found'}), 404
+
+            branch_id = branch['s_branch_id']
+            query = """
+                SELECT 
+                    z.report_no,
+                    z.customer_name,
+                    z.complaint_id,
+                    z.claim_id,
+                    t.s_current_status AS status_code,
+                    m.status_name
+                FROM dummycms.z_complaints_1 z
+                LEFT JOIN dummycms.tr_claims t ON z.claim_id = t.s_claim_id
+                LEFT JOIN dummycms.m_status m ON t.s_current_status = m.status_code
+                WHERE z.dealer_id = %s
+            """
+            # ❌ This should be WHERE z.branch_id = %s if your schema uses that
+            cursor.execute(query, (branch_id,))
+
+
+        elif mapped_usertype in staff_roles or mapped_usertype == 'staff':
+            query = """
+                SELECT
+                    z.report_no,
+                    z.customer_name,
+                    z.complaint_id,
+                    z.claim_id,
+                    t.s_current_status AS status_code,
+                    m.status_name,
+                    CASE 
+                        WHEN d.s_dealer_id IS NOT NULL THEN 'Dealer'
+                        WHEN b.s_branch_id IS NOT NULL THEN 'Branch'
+                        ELSE 'Unknown'
+                    END AS branch_type
+                FROM dummycms.z_complaints_1 z
+                LEFT JOIN dummycms.tr_claims t ON z.claim_id = t.s_claim_id
+                LEFT JOIN dummycms.m_status m ON t.s_current_status = m.status_code
+                LEFT JOIN dummycms.m_dealer d ON z.dealer_id = d.s_dealer_id
+                LEFT JOIN dummycms.m_branch b ON z.dealer_id = b.s_branch_id
+            """
+            cursor.execute(query)
+            complaints = cursor.fetchall()
+
+        else:
+            return jsonify({'success': False, 'message': 'Invalid user type'}), 400
+
+        cursor.close()
+        db.close()
+        return jsonify({'success': True, 'data': complaints}), 200
+
+    except Exception as e:
+        print("Dashboard Error:", str(e))
+        return jsonify({"success": False, "error_msg": str(e)}), 500
+
+@app.route('/<usertype>/delete_complaint', methods=['POST'])
+def delete_complaint(usertype):
+    try:
+        data = request.json
+        report_no = data.get('report_no')
+        db=get_connection()
+        cursor = db.cursor()
+
+        cursor.execute(
+            "DELETE FROM z_complaints_1 WHERE report_no = %s",(report_no,)
+        )
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return jsonify(success=True)
+
+    except Exception as e:
+        print(f"Error in delete_complaint: {e}")
+        return jsonify(success=False), 500
+       
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5015, debug=True)

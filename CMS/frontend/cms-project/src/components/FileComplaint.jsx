@@ -43,6 +43,7 @@ function FileComplaint() {
         const storedUser = localStorage.getItem("currentUser");
         const currentUser = storedUser ? JSON.parse(storedUser) : null;
         const userType = currentUser ? currentUser.s_usertype : null;
+        
         // if (!token || !(userType === "3" || userType === "1")) {
         //     navigate("/Login");
         //     return;

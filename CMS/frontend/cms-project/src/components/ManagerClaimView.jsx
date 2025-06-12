@@ -87,7 +87,7 @@ function ManagerClaimView() {
             .then(data => setcommunicationData(data))
             .catch(err => console.error("Error fetching communication data:", err));
     }, [claim_id]);
-    // console.log("Communication Data", communicationData);
+    console.log("Communication Data", communicationData);
     //   console.log("Claim View Data", claimViewData);
     useEffect(()=>{
         fetch(`http://192.168.1.29:5015/DefectivePhotos?claim_id=${claim_id}`)
