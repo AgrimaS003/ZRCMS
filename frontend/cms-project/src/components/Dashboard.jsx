@@ -232,8 +232,8 @@ const Dashboard = () => {
               <option value="All">All</option>
             </select>
 
-            <div className="search-bar">
-              <input
+            <div className="search-bar" id='dashboard-search'>
+              <input style={{width:'35%'}}
                 type="text"
                 className="search-input"
                 placeholder="Search by customer name..."

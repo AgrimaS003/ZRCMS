@@ -746,10 +746,8 @@ return (
             <hr />
                   <div className="attachments">
                     <h4 style={{ textAlign: "left" }}>H. Attachments</h4>
-
                     <p style={{ textAlign: 'left' }}>Defective Crucible Images</p>
 
-                    {/* 3 Images per row */}
                     <div className="attachment-row three-per-row">
                       <div className="attachment-group">
                         <label htmlFor='point_image'>Point The Problem</label>
@@ -770,7 +768,6 @@ return (
                       </div>
                     </div>
 
-                    {/* 2 Images per row */}
                     <div className="attachment-row two-per-row">
                       <div className="attachment-group">
                         <label htmlFor='top_view_image'>Top View</label>
@@ -789,7 +786,6 @@ return (
                       <b>Note: </b>Minimum 5 Images According to instructions mentioned in Annexure-A Photo Guidelines. Please Download it From "Download Forms" Section.
                     </p>
 
-                    {/* Optional / extra images */}
                     <div className="attachment-row one-per-row">
                       <div className="attachment-group">
                         <label>Other Attachments (if any)</label>
