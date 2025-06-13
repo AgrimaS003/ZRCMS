@@ -116,7 +116,7 @@ const Dashboard = () => {
                 return res.json();
             })
             .then(data => {
-                console.log("Protected data:", data);
+                // console.log("Protected data:", data);
                 // setUserData(data); // Or update state
             })
             .catch(err => {
@@ -388,9 +388,9 @@ const Dashboard = () => {
             .then(res => res.json())
             .then(res => {
                 if (res.success) {
-                    console.log("Server response:", res);
+                    // console.log("Server response:", res);
                     const complaintsData = res.data;
-                    console.log("Complaints received:", complaintsData);
+                    // console.log("Complaints received:", complaintsData);
                     setComplaints(complaintsData);
 
                     const counts = {
@@ -422,7 +422,7 @@ const Dashboard = () => {
     }, []);
 
 
-    console.log(counts);
+    // console.log(counts);
 
 
     const handleDelete = (report_no) => {
@@ -1112,7 +1112,7 @@ const Dashboard = () => {
                                             </tr>
                                         ) : (
                                             displayedComplaints.map((item) => (
-                                                <tr key={item.complaint_id}>
+                                                <tr key={item.complaint_id || item.report_no}>
                                                     <td>{item.report_no}</td>
                                                     <td>{item.customer_name}</td>
                                                     <td>
@@ -1124,7 +1124,7 @@ const Dashboard = () => {
                                                         <button
                                                             className="btn btn-info"
                                                             onClick={() =>
-                                                                navigate(`/${usertype}/form_view`, {
+                                                                navigate(`/DealerComplaintList/ManagerClaimView`, {
                                                                     state: { claim_id: item.claim_id },
                                                                 })
                                                             }

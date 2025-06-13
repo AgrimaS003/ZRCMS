@@ -297,8 +297,8 @@ function Sidebar({ userData }) {
 
                 <div className="sidebar-nav">
                     <ul>
-                        {selectedMenu.map((item) => (
-                            <li key={item.href}>
+                        {selectedMenu.map((item, idx) => (
+                            <li key={item.href ?? `${item.label}-${idx}`}>
                                 {/* Main Sidebar Link */}
                                 <a
                                     href={item.href === ("Complaint List" || "Download Forms") ? "#" : item.href}
