@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ActiveComplaintList.css';
-import Header from './Header';
+// import Header from './Header';
 import { useParams } from 'react-router-dom';
 
 const RejectedComplaintList = () => {
@@ -57,7 +57,7 @@ const RejectedComplaintList = () => {
 
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <main>
         <div className="complaint-header">
           <h2>Complaint</h2>

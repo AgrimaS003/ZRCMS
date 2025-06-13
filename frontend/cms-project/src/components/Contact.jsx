@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from './Header'
+// import Header from './Header'
 import './Contact.css'
 import { FaMapMarkerAlt, FaPhoneAlt, FaClock } from 'react-icons/fa'
 import emailjs from 'emailjs-com'
@@ -58,7 +58,7 @@ const Contact = () => {
 
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <main className="contact-main">
 
         <div className="contact-head">

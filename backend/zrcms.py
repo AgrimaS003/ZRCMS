@@ -91,7 +91,7 @@ def user_registration():
         print(str(e))
         return jsonify({"error msg :",str(e)}), 500
 
-######
+#####
 @app.route('/<usertype>/get_profile', methods=['GET'])
 def get_profile(usertype):
     try:
@@ -149,7 +149,7 @@ def get_profile(usertype):
         print(str(e))
         return jsonify({"error_msg": str(e)}), 500
     
-######
+#####
 @app.route('/<usertype>/update_profile', methods=['POST'])
 def update_profile(usertype):
     try:
@@ -192,6 +192,7 @@ def update_profile(usertype):
         return jsonify({"error msg :",str(e)}), 500
 
 ######
+
 @app.route("/predefined_data",methods=["GET","POST"])
 def predefined_data():
     try:
@@ -229,7 +230,7 @@ def predefined_data():
         return jsonify({"error_msg :":str(e)}), 500
 
 
-######
+#####
 @app.route('/<usertype>/register_complaint' , methods = ['POST'])
 def register_complaint(usertype):
     try:
@@ -437,7 +438,7 @@ def register_complaint(usertype):
         print(str(e))
         return jsonify({"error_msg ":str(e)}), 500
     
-######
+#####
 @app.route('/<usertype>/dashboard', methods=['POST'])
 def dealer_dashboard(usertype):
     try:
@@ -563,6 +564,7 @@ def dealer_dashboard(usertype):
         return jsonify({"error_msg ":str(e)}), 500
 
 ######
+
 @app.route('/<usertype>/delete_complaint', methods=['POST'])
 def delete_complaint(usertype):
     try:
@@ -1038,7 +1040,7 @@ def get_photos(usertype):
         print("Exception:", str(e))
         return jsonify({"error_msg": str(e)}), 500
 
-######
+#####
 @app.route('/<usertype>/update_photo',methods=['POST'])
 def update_photo(usertype):
     try:
@@ -1217,6 +1219,7 @@ def claim_timeline(usertype):
 
 
 ######
+
 @app.route('/<usertype>/all_complaint_list', methods=['POST'])
 def all_complaint_list(usertype):
     try: 
@@ -1287,6 +1290,7 @@ def update_photo_status(usertype):
         return jsonify({"success": False, "error": str(e)}), 500
 
 ######
+
 @app.route('/branch/monthly_complaints', methods=['POST'])
 def monthly_complaints():
     try:

@@ -27,6 +27,11 @@ import ApprovedClaim from "./components/ApprovedClaim";
 import DirectorClaimView from "./components/DirectorClaimView";
 import Dashboard2 from "./components/dashboard2";
 import RegisterComplaint from "./components/RegisterComplaint";
+import { UserProvider } from '../../../../frontend/cms-project/src/components/UserContext'
+import ActiveClaim from "../../../../frontend/cms-project/src/components/ActiveComplaintList.jsx"
+import RejectClaim from "../../../../frontend/cms-project/src/components/RejectedComplaintList.jsx"
+import ClaimPass from "../../../../frontend/cms-project/src/components/ClaimPassed.jsx"
+// import ContactUS from "../../../../frontend/cms-project/src/components/Contact.jsx"
 
 
 function App() {
@@ -71,6 +76,7 @@ function App() {
   // }
 
   return (
+    <UserProvider>
     <Router>
       <div>
         {/* <Sidebar /> */}
@@ -104,11 +110,17 @@ function App() {
           <Route path="/ApprovedClaim" element={<ApprovedClaim/>}/>
           <Route path="/DirectorClaimView" element={<DirectorClaimView/>}/>
           <Route path="/RegisterComplaint" element={<RegisterComplaint/>} />
+          <Route path="/ActiveClaim" element={<ActiveClaim/>} />
+          <Route path="/RejectClaim" element={<RejectClaim/>} />
+          <Route path="/ClaimPass" element={<ClaimPass/>} />
+          {/* <Route path="/ContactUS" element={<ContactUS/>} /> */}
+
           {/* Add other routes here */}
           <Route path="*" element={<Navigate to="/Login" />} />
         </Routes>
       </div>
     </Router>
+    </UserProvider>
   );
 }
 

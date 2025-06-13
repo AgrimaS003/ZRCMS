@@ -38,6 +38,7 @@ STATUS_MAP = {
             
 
 CORS(app, origins=["http://192.168.1.29:5173"], supports_credentials=True, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -66,7 +67,8 @@ def login():
         })
     else:
         return jsonify({'success': False}), 401
-    
+
+
 @app.route('/protected', methods=['GET'])
 @jwt_required()
 def protected():
@@ -181,7 +183,6 @@ def get_branches():
     return jsonify(branches)
 
 @app.route('/fetchdealers', methods=['GET'])
-# @jwt_required() 
 def get_fetchdealers():
     # from flask_jwt_extended import get_jwt_identity
     # print("Accessed by:", get_jwt_identity()) 
@@ -458,6 +459,7 @@ def get_reports():
     db.close()
     return jsonify(results)
 
+
 @app.route('/profile', methods=['GET'])
 def profile():
     db_profile = get_connection()
@@ -519,6 +521,7 @@ def profile():
 
     db_profile.close()
     return jsonify(profile_data)
+
 
 @app.route('/update_profile', methods=['POST'])
 def update_profile():
@@ -846,7 +849,7 @@ def get_manager_claim_view():
     except Exception as e:
         print("Error in /DealerComplaintList/ManagerClaimView:", e)
         return jsonify({"error": str(e)}), 500
-    
+
 @app.route('/statussetbymanager',methods=['GET'])
 # def status_set_by_manager():
 #         claim_id = request.args.get('claimid')
@@ -1058,13 +1061,14 @@ def get_claims():
 
 ######
 @app.route("/predefined_data_dealer",methods=["GET","POST"])
-def predefined_data_dealer():
+def predefined_data_dealer(): 
     try:
         # data=request.get_json()
         connection = get_connection()
         cursor = connection.cursor()
 
         dealer_id = request.args.get("dealer_id")
+        
         cursor.execute("SELECT s_dealer_company, s_dealer_name FROM m_dealer WHERE s_dealer_id = %s", (dealer_id,))
         dealer_info = cursor.fetchone()
         dealer_company, dealer_name = dealer_info
@@ -1081,6 +1085,7 @@ def predefined_data_dealer():
     except Exception as e:
         print(str(e))
         return jsonify({"error msg :",str(e)}), 500
+
 @app.route("/predefined_data_branch", methods=["GET"])
 def predefined_data_branch():
     try:
@@ -1118,7 +1123,7 @@ def predefined_data_branch():
     except Exception as e:
         print("Error:", e)
         return jsonify({"success": False, "error_msg": str(e)}), 500
-    
+
 @app.route('/fetchclaims', methods=['GET'])
 def fetchclaims():
     try:
@@ -1172,7 +1177,7 @@ def fetchclaims():
 #         conn = get_connection()
 #         cursor = conn.cursor()
 
-#         # ✅ Auto-generate the next claim_id based on MAX from tr_claims
+#          Auto-generate the next claim_id based on MAX from tr_claims
 #         cursor.execute("SELECT MAX(s_claim_id) FROM dummycms.tr_claims")
 #         max_claim_id = cursor.fetchone()[0]
 #         next_claim_id = (max_claim_id or 0) + 1
@@ -1184,7 +1189,7 @@ def fetchclaims():
 #             dt_obj = datetime.fromisoformat(iso_str.rstrip('Z'))
 #             data['complaint_added_datetime'] = dt_obj.strftime('%Y-%m-%d %H:%M:%S')
 
-#         # ✅ Insert into tr_claims (only once)
+#          Insert into tr_claims (only once)
 #         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 #         cursor.execute("""
 #             INSERT INTO dummycms.tr_claims (s_claim_id, s_dealer_id,ns_claim_added_on,ns_last_update_on)
@@ -1314,25 +1319,25 @@ def add_complaint():
         conn = get_connection()
         cursor = conn.cursor()
 
-        # ✅ Auto-generate the next claim_id
+        #  Auto-generate the next claim_id
         cursor.execute("SELECT MAX(s_claim_id) FROM dummycms.tr_claims")
         max_claim_id = cursor.fetchone()[0]
         next_claim_id = (max_claim_id or 0) + 1
         data["claim_id"] = next_claim_id
 
-        # ✅ Format date strings properly
+        #  Format date strings properly
         data['Installation_date'] = parse_datetime(data.get('Installation_date'))
         data['failed_date'] = parse_datetime(data.get('failed_date'))
         data['complaint_added_datetime'] = parse_datetime(data.get('complaint_added_datetime'))
 
-        # ✅ Insert into tr_claims
+        #  Insert into tr_claims
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         cursor.execute("""
             INSERT INTO dummycms.tr_claims (s_claim_id, s_dealer_id, ns_claim_added_on, ns_last_update_on)
             VALUES (%s, %s, %s, %s)
         """, (next_claim_id, data.get("dealer_id"), now, now))
 
-        # ✅ Insert into z_complaints_1
+        #  Insert into z_complaints_1
         insert_query = """
         INSERT INTO z_complaints_1 (
             claim_id, report_no, dealer_id, customer_company, customer_name, customer_mobile,
@@ -1403,7 +1408,7 @@ def add_complaint():
             data.get("complaint_added_datetime")
         ))
 
-        # ✅ Insert into tr_business_review if provided
+        #  Insert into tr_business_review if provided
         past_sales = data.get("past_sales_performance")
         if past_sales and isinstance(past_sales, list):
             business_review_query = """
@@ -1680,6 +1685,7 @@ def get_product():
 
     return jsonify(product_data)
 
+
 @app.route('/rejectclaimbymanager',methods=['GET'])
 def rejectclaimbymanager():
     claim_id = request.args.get('claimid')
@@ -1694,6 +1700,7 @@ def rejectclaimbymanager():
     cursor.close()
     db.close()
     return jsonify({'message': 'Claim Rejected Successfully'})
+
 
 @app.route('/dashboard/<usertype>/', methods=['POST'])
 def dealer_dashboard(usertype):
@@ -1770,7 +1777,7 @@ def dealer_dashboard(usertype):
                 LEFT JOIN dummycms.m_status m ON t.s_current_status = m.status_code
                 WHERE z.dealer_id = %s
             """
-            # ❌ This should be WHERE z.branch_id = %s if your schema uses that
+            # This should be WHERE z.branch_id = %s if your schema uses that
             cursor.execute(query, (branch_id,))
 
 
@@ -1828,7 +1835,7 @@ def delete_complaint(usertype):
     except Exception as e:
         print(f"Error in delete_complaint: {e}")
         return jsonify(success=False), 500
-       
+
 
 
 if __name__ == '__main__':
