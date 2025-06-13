@@ -13,32 +13,38 @@ const QC_Complaint_List = () => {
   const [selectedYear, setSelectedYear] = useState('');
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    fetch(`http://192.168.1.32:5015/${usertype}/all_complaint_list`,{
-        method:'POST',
-        headers:{'Content-type':'application/json'},
-        body: JSON.stringify({}),
-    })
+useEffect(() => {
+
+  const isManager = usertype.toLowerCase() === 'manager';
+  const email = localStorage.getItem('userEmail'); // must be set at login
+  const payload = isManager ? {} : { email };
+
+  fetch(`http://192.168.1.32:5015/${usertype}/all_complaint_list`, {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
     .then((response) => response.json())
-    .then((data) =>{
-        if(data.success){
-          const withReportNo = data.complaints.map(c => ({
-            ...c,
-            report_no: c.claim_id,  // for display
-            claim_id: c.claim_id,   // keep for internal use
-    }));
-    setComplaints(withReportNo);
-        }
-        else{
-            console.error('Failed to fetch complaints:', data.message || data.error_msg);
-        }
-        setLoading(false);
+    .then((data) => {
+
+      if (data.success) {
+        const withReportNo = data.complaints.map(c => ({
+          ...c,
+          report_no: c.claim_id,
+          claim_id: c.claim_id,
+        }));
+        setComplaints(withReportNo);
+      } else {
+        console.error('Failed to fetch complaints:', data.message || data.error_msg);
+      }
+      setLoading(false);
     })
     .catch((err) => {
-        console.error(err);
-        setLoading(false);
+      console.error(err);
+      setLoading(false);
     });
-  }, [usertype]);
+}, [usertype]);
+
 
     const filteredComplaints = complaints
   .filter((complaint) =>

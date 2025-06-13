@@ -1098,77 +1098,8 @@ def delete_photo(usertype):
     except Exception as e:
         print(str(e))
         return jsonify({"error_msg":str(e)}), 500
-    
+
 ######
-# @app.route('/<usertype>/claim_timeline', methods=['POST'])
-# def claim_timeline(usertype):
-#     try:
-#         data=request.get_json()
-#         claim_id = data.get('claim_id')
-
-#         db = get_connection()
-#         cursor = db.cursor(dictionary=True)
-#         query = """
-#             SELECT 
-#                 ms.status_name AS description,
-#                 tc.ns_last_update_on AS timestamp
-#             FROM tr_claims tc
-#             JOIN m_status ms ON tc.s_current_status = ms.status_code
-#             WHERE tc.s_claim_id = %s
-#             ORDER BY tc.ns_last_update_on ASC
-#         """
-#         cursor.execute(query, (claim_id,))
-#         result = cursor.fetchall()
-#         return jsonify({"success": True, "events": result}), 200
-
-#     except Exception as e:
-#         print(str(e))
-#         return jsonify({"error_msg":str(e)}), 500
-
-
-# @app.route('/<usertype>/claim_timeline', methods=['POST'])
-# def claim_timeline(usertype):
-#     try:
-#         data = request.get_json()
-#         input_id = data.get('claim_id')  # May be claim_id or report_no
-
-#         db = get_connection()
-#         cursor = db.cursor(dictionary=True)
-
-#         # Staff roles
-#         staff_roles = ['manager', 'supervisor', 'inspection', 'quality_check', 'sales_head', 'director', 'account']
-#         usertype_lower = usertype.lower()
-
-#         # Resolve claim_id if staff
-#         if usertype_lower in staff_roles:
-#             cursor.execute("SELECT claim_id FROM z_complaints_1 WHERE report_no = %s", (input_id,))
-#             row = cursor.fetchone()
-#             if not row:
-#                 return jsonify({"success": False, "message": "Invalid report_no for staff"}), 404
-#             claim_id = row['claim_id']
-#         else:
-#             claim_id = input_id
-
-#         # Fetch all rows for this claim_id to build the timeline
-#         query = """
-#             SELECT 
-#                 ms.status_name AS description,
-#                 tc.ns_last_update_on AS timestamp
-#             FROM tr_claims tc
-#             JOIN m_status ms ON tc.s_current_status = ms.status_code
-#             WHERE tc.s_claim_id = %s
-#             ORDER BY tc.ns_last_update_on ASC
-#         """
-#         cursor.execute(query, (claim_id,))
-#         timeline_entries = cursor.fetchall()
-
-#         return jsonify({"success": True, "events": timeline_entries}), 200
-
-#     except Exception as e:
-#         print("Error in claim_timeline:", str(e))
-#         return jsonify({"success": False, "error_msg": str(e)}), 500
-
-
 @app.route('/<usertype>/claim_timeline', methods=['POST'])
 def claim_timeline(usertype):
     try:
@@ -1219,41 +1150,86 @@ def claim_timeline(usertype):
 ######
 @app.route('/<usertype>/all_complaint_list', methods=['POST'])
 def all_complaint_list(usertype):
-    try: 
-        query = """SELECT 
-                z.report_no AS claim_id,
-                z.complaint_added_datetime AS claim_date,
-                z.customer_name AS dealer_name,
-                z.customer_mobile AS dealer_mobile,
-                COALESCE(d.s_dealer_email, b.s_branch_email) AS dealer_email
-            FROM 
-                z_complaints_1 z
-            LEFT JOIN 
-                m_dealer d ON z.dealer_id = d.s_dealer_id
-            LEFT JOIN 
-                m_branch b ON (d.s_dealer_id IS NULL AND z.dealer_id = b.s_branch_id)
-            ORDER BY
-                z.complaint_added_datetime DESC;"""
-
+    try:
+        data = request.get_json()
+        email = data.get('email')  # only used for non-manager
+    
         db = get_connection()
-        cursor = db.cursor()
-        cursor.execute(query)
+        cursor = db.cursor(dictionary=True)
+
+        if usertype.lower() == 'manager':
+            # Fetch all complaints
+            query = """
+                SELECT 
+                    z.report_no AS claim_id,
+                    z.complaint_added_datetime AS claim_date,
+                    z.customer_name AS dealer_name,
+                    z.customer_mobile AS dealer_mobile,
+                    COALESCE(d.s_dealer_email, b.s_branch_email) AS dealer_email
+                FROM 
+                    z_complaints_1 z
+                LEFT JOIN 
+                    m_dealer d ON z.dealer_id = d.s_dealer_id
+                LEFT JOIN 
+                    m_branch b ON (d.s_dealer_id IS NULL AND z.dealer_id = b.s_branch_id)
+                ORDER BY
+                    z.complaint_added_datetime DESC;
+            """
+            cursor.execute(query)
+        else:
+            # Get staff ID from email
+            staff_query = "SELECT s_staff_id FROM m_staff WHERE s_staff_email = %s"
+            cursor.execute(staff_query, (email,))
+            staff = cursor.fetchone()
+            if not staff:
+                return jsonify({"success": False, "error_msg": "Staff not found"}), 404
+
+            s_staff_id = staff['s_staff_id']
+
+            # Get latest complaint assignments for this staff
+            # Using a subquery to get latest status per claim
+            assigned_query = """
+                SELECT 
+                    z.report_no AS claim_id,
+                    z.complaint_added_datetime AS claim_date,
+                    z.customer_name AS dealer_name,
+                    z.customer_mobile AS dealer_mobile,
+                    COALESCE(d.s_dealer_email, b.s_branch_email) AS dealer_email
+                FROM 
+                    z_complaints_1 z
+                INNER JOIN (
+                    SELECT s_claim_id, MAX(s_updated_on) AS max_updated_on
+                    FROM tr_claimstatus
+                    WHERE s_in_staffid = %s
+                    GROUP BY s_claim_id
+                ) latest_status ON z.report_no = latest_status.s_claim_id
+                INNER JOIN tr_claimstatus tcs ON 
+                    tcs.s_claim_id = latest_status.s_claim_id 
+                    AND tcs.s_updated_on = latest_status.max_updated_on
+                    AND tcs.s_in_staffid = %s
+                LEFT JOIN m_dealer d ON z.dealer_id = d.s_dealer_id
+                LEFT JOIN m_branch b ON (d.s_dealer_id IS NULL AND z.dealer_id = b.s_branch_id)
+                ORDER BY z.complaint_added_datetime DESC;
+            """
+            cursor.execute(assigned_query, (s_staff_id, s_staff_id))
+
         complaints = cursor.fetchall()
 
         complaints_list = []
         for complaint in complaints:
             complaints_list.append({
-                'claim_id': complaint[0],
-                'claim_date': complaint[1].strftime('%Y-%m-%d') if complaint[1] else None,
-                'dealer_name': complaint[2],
-                'dealer_mobile': complaint[3],
-                'dealer_email': complaint[4]
+                'claim_id': complaint['claim_id'],
+                'claim_date': complaint['claim_date'].strftime('%Y-%m-%d') if complaint['claim_date'] else None,
+                'dealer_name': complaint['dealer_name'],
+                'dealer_mobile': complaint['dealer_mobile'],
+                'dealer_email': complaint['dealer_email']
             })
-        return jsonify({"success": True,"complaints":complaints_list}), 200
+
+        return jsonify({"success": True, "complaints": complaints_list}), 200
 
     except Exception as e:
         print(str(e))
-        return jsonify({"error_msg":str(e)}), 500
+        return jsonify({"error_msg": str(e)}), 500
 
 
 ######
