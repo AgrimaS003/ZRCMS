@@ -15,6 +15,12 @@ const Sidebar = () => {
     const staffRoles = ['manager', 'supervisor', 'inspection', 'quality_check', 'sales_head', 'director', 'account'];
     const isStaff = usertype && staffRoles.includes(usertype.toLowerCase());
 
+    const handleLogout = () => {
+      localStorage.clear();
+      navigate('/');
+      window.location.reload();
+    };
+
   return (
     <aside className="sidebar">
       <ul className="sidebar-nav">
@@ -96,7 +102,7 @@ const Sidebar = () => {
           <a className="nav-link"><i className="bi bi-envelope"></i> <span id='color-id'>Contact</span></a>
         </li>
         )}
-        <li className="nav-item" onClick={() => navigate('/')}>
+        <li className="nav-item" onClick={handleLogout}>
           <a className="nav-link"><i className="bi bi-box-arrow-right"></i> <span id='color-id'>Logout</span></a>
         </li>
       </ul> 
