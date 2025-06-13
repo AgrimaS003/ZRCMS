@@ -37,9 +37,15 @@ function LogIn() {
           const user = data.output;
           localStorage.setItem("currentUser", JSON.stringify(user));
 
+
           setMsg('Login Successful');
           setTimeout(() => {
-            navigate('/dashboard');
+            
+            if(user?.s_usertype === 2 || user?.s_usertype === 10){
+              navigate('/Dashboard2');
+            }else{
+              navigate('/dashboard');
+            }
           }, 500);
         } else {
           setMsg('Login Failed');

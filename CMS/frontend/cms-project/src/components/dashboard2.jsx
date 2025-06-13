@@ -261,7 +261,6 @@ const Dashboard = () => {
 
         } else if (normalizedUserType === "2") {
 
-
         } else if (normalizedUserType === "3") {
             const labels = Object.keys(Counter_Complains);
             const dataArray = Object.values(Counter_Complains);
@@ -925,7 +924,7 @@ const Dashboard = () => {
                     )}
                 </section>
 
-                <section className={`dashboard-charts-row  ${(userType === 8 || userType === "8" || userType === "2" || userType === 2) ? "display-none" : ""}`}>
+                <section className={`dashboard-charts-row  ${(userType === 8 || userType === "8" || userType === "2" || userType === 2 ||  userType === "10" || userType === 10) ? "display-none" : ""}`}>
                     <div className="dashboard-chart-card">
                         <h2>User Types Distribution</h2>
                         <Doughnut
@@ -980,7 +979,7 @@ const Dashboard = () => {
                     </div>
                 </section>
                 {/* Assigned Complaints Table (Visible to Roles Other Than 1, 2, 3) */}
-                <section className={`${[1, 2, 3].includes(userType) ? 'display-none' : ''}`}>
+                <section className={`${[1, 2, 3,10].includes(userType) ? 'display-none' : ''}`}>
                     <div className="dashboardcomplaints-table-card">
                         <div className="dashboardcomplaints-table-controls">
                             <h3>Assigned Complaints</h3>
@@ -1137,7 +1136,7 @@ const Dashboard = () => {
                                                         <button
                                                             className="btn btn-danger"
                                                             onClick={() => handleDelete(item.report_no)}
-                                                            disabled={!([0, 1, 2].includes(Number(item.status_code)))}
+                                                            disabled={!([0, 1, 2,110].includes(Number(item.status_code)))}
                                                         >
                                                             Delete
                                                         </button>
